@@ -1,0 +1,16 @@
+  <div class="form-group">
+      <label class="sr-only" for="title">标题：</label>
+      <input type="text" class="form-control" id="title" name="topic.content" placeholder="请输入标题">
+      <span class="-error-msg">${contentMsg!}</span>
+   </div>
+    <div class="form-group">
+      <label class="sr-only" for="md">类别：</label>
+      
+            <select class="form-control"  id="md" name="topic.moduleID"> 
+           @ for(vv in moduleList!){
+            <option value="${vv.id}" ${isSame(vv.id!, topic.moduleID!, "selected='selected'")}>
+                ${vv.name!}
+            </option>
+        @ }
+      </select>
+   </div>

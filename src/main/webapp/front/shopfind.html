@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店铺查找结果</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="jscss/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="jscss/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="jscss/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".product").click(function(){
+//                $(this).hide();
+                location.href = "product.html?product="+$(this).attr("data-product");//location.href实现客户端页面的跳转
+            });
+//            $(".phone").click(function(){
+////                $(this).hide();
+//                location.href = "tel:13800138000";//location.href实现客户端页面的跳转
+//            });
+            $(".thumbnail img").css("height",parseFloat($(".thumbnail img").css("width"))*0.6);
+            $(".findT").html("根据“"+getUrlParam("e")+"”查找到如下结果:")
+        });
+        function getUrlParam(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r!=null) return decodeURI(r[2]); return null; //返回参数值
+        }
+    </script>
+</head>
+
+<body>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <h3 class="findT">
+
+        </h3>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="col-xs-6 col-sm-6  col-md-3 product" data-product="100">
+        <div class="thumbnail">
+            <img class="img-responsive" src="img/index/shop1.jpg"
+                 alt="通用的占位符缩略图">
+        </div>
+        <div class="caption">
+            <h3>缩略图标签</h3>
+            <p>一些示例文本。一些示例文本。</p>
+
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-6  col-md-3 product" data-product="100">
+        <div class="thumbnail">
+            <img class="img-responsive"  src="img/index/shop2.jpg"
+                 alt="通用的占位符缩略图">
+        </div>
+        <div class="caption">
+            <h3>缩略图标签2</h3>
+            <p>一些示例文本。一些示例文本。</p>
+
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-6  col-md-3 product" data-product="100">
+        <div class="thumbnail">
+            <img class="img-responsive"  src="img/index/shop3.jpg"
+                 alt="通用的占位符缩略图">
+        </div>
+        <div class="caption">
+            <h3>缩略图标签3</h3>
+            <p>一些示例文本。一些示例文本。</p>
+
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-6  col-md-3 product" data-product="100">
+        <div class="thumbnail">
+            <img class="img-responsive" style=""  src="img/index/shop4.jpg"
+                 alt="通用的占位符缩略图">
+        </div>
+        <div class="caption">
+            <h3>缩略图标签4</h3>
+            <p>一些示例文本。一些示例文本。</p>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

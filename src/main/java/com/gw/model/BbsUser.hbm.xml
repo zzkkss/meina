@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.gw.model">
+	<class
+		name="BbsUser"
+		table="bbs_user"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="Id"
+			type="integer"
+			column="id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="Username"
+			column="username"
+			type="string"
+			not-null="true"
+			length="20"
+		/>
+		<property
+			name="Password"
+			column="password"
+			type="string"
+			not-null="true"
+			length="40"
+		/>
+		<property
+			name="Sex"
+			column="sex"
+			type="boolean"
+			not-null="true"
+			length="1"
+		/>
+		<property
+			name="Email"
+			column="email"
+			type="string"
+			not-null="false"
+			length="30"
+		/>
+		<property
+			name="HeadImg"
+			column="headImg"
+			type="string"
+			not-null="false"
+			length="120"
+		/>
+		<property
+			name="BlogUrl"
+			column="blogUrl"
+			type="string"
+			not-null="false"
+			length="80"
+		/>
+		<property
+			name="Feeling"
+			column="feeling"
+			type="string"
+			not-null="false"
+			length="300"
+		/>
+		<property
+			name="RegistDate"
+			column="registDate"
+			type="date"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="MainUsersId"
+			column="mainUsersId"
+				type="integer"
+			not-null="false"
+			length="10"
+		/>
+	
+
+
+	</class>	
+</hibernate-mapping>

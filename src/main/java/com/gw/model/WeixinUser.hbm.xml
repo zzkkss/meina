@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.gw.model">
+	<class
+		name="WeixinUser"
+		table="weixin_user"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="Id"
+			type="integer"
+			column="Id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="Openid"
+			column="openid"
+			type="string"
+			not-null="true"
+			length="255"
+		/>
+		<!-- please tell Joe Hudson that the type 'TINYBLOB' could not be resolved.. defaulting to java.lang.String -->
+		<property
+			name="Nickname"
+			column="nickname"
+			type="binary"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Subscribe"
+			column="subscribe"
+			type="string"
+			not-null="false"
+			length="1"
+		/>
+		<property
+			name="Sex"
+			column="sex"
+			type="string"
+			not-null="false"
+			length="1"
+		/>
+		<property
+			name="City"
+			column="city"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Country"
+			column="country"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Province"
+			column="province"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Language"
+			column="language"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Headimgurl"
+			column="headimgurl"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="SubscribeTime"
+			column="subscribe_time"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Unionid"
+			column="unionid"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+
+
+	</class>	
+</hibernate-mapping>

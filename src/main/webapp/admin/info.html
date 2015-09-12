@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>企业信息</title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="/jscss/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+
+<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+<link rel="stylesheet" href="/jscss/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/jscss/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css">
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="/jscss/jquery-2.1.4.min.js"></script>
+<script src="/jscss/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="/jscss/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<!-- WEBUPLOADER -->
+<link rel="stylesheet" type="text/css" href="/jscss/diyUpload/css/webuploader.css">
+<link rel="stylesheet" type="text/css" href="/jscss/diyUpload/css/diyUpload.css">
+<script type="text/javascript" src="/jscss/diyUpload/js/webuploader.html5only.min.js"></script>
+<script type="text/javascript" src="/jscss/diyUpload/js/diyUpload.js"></script>
+<!-- Uedit -->
+<link href="/jscss/umeditor1_2_2/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" charset="utf-8" src="/jscss/umeditor1_2_2/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/jscss/umeditor1_2_2/umeditor.min.js"></script>
+<script type="text/javascript" src="/jscss/umeditor1_2_2/lang/zh-cn/zh-cn.js"></script>
+<!-- baidu -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=tHkUgRj9hHQ26hHlBf20X9jg"></script>
+<style type="text/css">
+.ui-dialog {
+	z-index: 9999;
+}
+</style>
+</head>
+<body>
+	<div id="page-wrapper" class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">企业信息</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		<!-- /.row -->
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">此处可以编辑企业首页信息。</div>
+					<div class="panel-body">
+						<div class="row">
+							<form role="form">
+								<div class="col-xs-6">
+									<div class="form-group col-xs-12">
+									
+										<label>名称</label> <input type="text" class="form-control" id="name" placeholder="请输入名称">
+										<p class="help-block">商户名称</p>
+									
+										
+									</div>
+									
+									<div class="form-group col-xs-12">
+									
+										<label>联系电话</label> <input type="text" class="form-control" id="phone" placeholder="请输入联系电话">
+										<p class="help-block">联系电话</p>
+									</div>
+										<button type="button" class=" btn btn-primary btn-lg btn-block" id="upadmininfo">提交修改</button>
+									
+								</div>
+								<!-- /.col-lg-6 (nested) -->
+								<div class="col-xs-6">
+								
+								
+									<div class="form-group " style="height: 200px;">
+										<label for="name">滚动图：<small>修改时，请一次提交三张图片。</small></label>
+										<div class="form-control" id="suoluetudaxiao">
+											<div class="thumbnail col-sm-4 col-xs-4 col-md-4">
+												<img id="img1" style="width: 100%;" src="" />
+											</div>
+											<div class="thumbnail col-sm-4 col-xs-4 col-md-4">
+												<img id="img2" style="width: 100%;" src="" />
+											</div>
+											<div class="thumbnail col-sm-4 col-xs-4 col-md-4">
+												<img id="img3" style="width: 100%;" src="" />
+											</div>
+										
+										</div>
+										<script type="text/javascript">
+			$("#suoluetudaxiao img").height($("#suoluetudaxiao").width()*0.3*0.5);
+			</script>
+									</div>
+
+									<div class="form-group">
+										<label for="inputfile">编辑滚动图</label>
+										<div id="box" style="width: 100%; min-height: 50px;">
+											<div id="imgg"></div>
+										</div>
+											<p class="help-block">滚动图长宽比2：1，最小分辨率不低于300：200，最大分辨率不高于2160：1080,建议使用900：450。</p>
+									</div>
+									
+									<!-- /.col-lg-6 (nested) -->
+							</form>
+						</div>
+						<!-- /.row (nested) -->
+					</div>
+					<!-- /.panel-body -->
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /#page-wrapper -->
+
+
+
+
+
+</body>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+       var actionUrl = "/background/adminInfo.do";  
+       // 从Server读取对应ID的JSON数据  
+       $.ajax( {  
+       	 type:"get",
+           url : actionUrl,  
+          // data : params,   
+           dataType : "json",  
+           cache : false,  
+           error : function(textStatus, errorThrown) {  
+               alert("系统ajax交互错误: " + textStatus);  
+           },  
+           success : function(data, textStatus) {  
+               // 如果读取结果成功，则将信息载入到对话框中   
+               	try{
+               	  /*   "id": 1,
+               	    "title": "新的测试",
+               	    "content": "新的测试",
+               	    "img": "[20150810035025333.png]",
+               	    "type": null,
+               	    "address": "北京市中关村南大街甲十号银海大厦",
+               	    "phone": "13800138000",
+               	    "coordinate": "116.5033,39.88" */
+               	 shopid=data.id;
+               		$("#img1").attr("src","\/uploadimg\/"+data.img.substring(1,data.img.length-1).split(',')[0]);
+               		$("#img2").attr("src","\/uploadimg\/"+data.img.substring(1,data.img.length-1).split(',')[1]);
+               		$("#img3").attr("src","\/uploadimg\/"+data.img.substring(1,data.img.length-1).split(',')[2]);
+            /*    		$("#coordinate").attr("href","\/meina\/map.html?coordinate="+data.coordinate);
+               		$("#phone").attr("href","tel:"+data.phone); */
+               		$("#name").val(data.name);
+               		$("#phone").val(data.phone);
+               		img=data.img;
+               	}catch(e){
+               		alert(e);
+               	}
+           }  
+        
+       });  
+       
+
+       /*
+       * 服务器地址,成功返回,失败返回参数格式依照jquery.ajax习惯;
+       * 其他参数同WebUploader
+       */
+var img;
+       $('#imgg').diyUpload({
+       	url:'/background/imgUpload.do',
+       	success:function( data ) {
+       		console.info( data );
+       	},
+       	fileNumLimit:3,
+       	fileSingleSizeLimit:2160*1080,
+       	successall:function( data ) {
+       		console.info( data );
+       		if(data.split('][').length>1){
+       		img=data.replace(/\]\[/g,',');
+       		}else{
+       			img=data;
+       		}
+       		console.info( img );
+       	},
+       	error:function( err ) {
+       		console.info( err );	
+       	}
+       });
+    
+
+       //点击 事件
+       $("#upadmininfo").click(function(){
+       var params = {  
+    			  
+               "name":$("#name").val(),
+               "img":img,
+               "phone":$("#phone").val(),
+           };   
+           var actionUrl = "/background/adminInfoEdit.do";  
+           // 从Server读取对应ID的JSON数据  
+           $.ajax( {  
+           	 type:"get",
+           	contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+               url : actionUrl,  
+               data : params,   
+               dataType : "text",  
+               cache : false,  
+               error : function(textStatus, errorThrown) {  
+                   alert("系统ajax交互错误: " + textStatus);  
+               },  
+               success : function(data, textStatus) {  
+                   // 如果读取结果成功，则将信息载入到对话框中   
+                   	if(data=="success"){
+                   	 location.reload(); 
+                   	}else{
+                   		alert("更新失败");
+                   	}
+               }  
+            
+           });  
+       });
+       });  
+
+</script>
+</html>

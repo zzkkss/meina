@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.gw.model">
+	<class
+		name="CollectCoupons"
+		table="collect_coupons"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="Id"
+			type="integer"
+			column="Id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="UsersId"
+			column="usersId"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="CouponsId"
+			column="couponsId"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="State"
+			column="state"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+
+
+	</class>	
+</hibernate-mapping>

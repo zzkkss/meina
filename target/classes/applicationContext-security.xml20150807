@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <beans xmlns="http://www.springframework.org/schema/beans"  
+        xmlns:sec="http://www.springframework.org/schema/security"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd"> 
+        <!-- 配置不过滤的资源（静态资源及登录相关） -->  
+          
+        <sec:http pattern="/background/**/*.js" security="none"></sec:http>  <!-- 不过滤测试内容 -->  
+        <sec:http pattern="/background/**/*.css" security="none"></sec:http>  <!-- 不过滤测试内容 -->  
+        <sec:http pattern="/background/**/*.jpg" security="none"></sec:http>  <!-- 不过滤测试内容 -->  
+        <sec:http pattern="/background/**/*.png" security="none"></sec:http>  <!-- 不过滤测试内容 -->  
+        <sec:http pattern="/background/*.do" security="none"></sec:http>  <!-- 不过滤测试内容 -->  
+   <!--      <sec:http pattern="/background/*.do" security="none"></sec:http>  不过滤测试内容   -->
+   
+        <sec:http pattern="/decorators/**" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/jscss/**" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/*sina/**" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/device/**" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/front/**" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/error/**" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/updataimg/**" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/weixin/**" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/weixin/**/*.*" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/websocket/**" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/websocket/**/*.*" security="none"></sec:http><!-- 不过滤测试内容 -->  
+        <sec:http pattern="/loginR.do" security="none"></sec:http><!-- 不过滤测试内容 -->  
+          
+        <sec:http auto-config="true">  
+            <!--   <sec:csrf disabled="true"/> -->
+           <sec:intercept-url pattern="/map/**" access="hasAnyRole('ROLE_ADMIN','ROLE_WEIXIN')"/> 
+           <sec:intercept-url pattern="/background/**" access="hasRole('ROLE_ADMIN')"/> 
+          
+      <!--   <sec:form-login login-page="/background/login.jsp" authentication-failure-url="/background/login.jsp"  
+            default-target-url="/background/index.html"/>   -->
+            <sec:form-login login-page="/login.do"
+					username-parameter="username" 
+					password-parameter="password" 
+					login-processing-url="/loginR.do" 
+					authentication-failure-url="/login.do" 
+					default-target-url="/back.do"
+					
+		/>
+             
+		<!-- enable csrf protection -->
+		<sec:csrf request-matcher-ref="csrfSecurityRequestMatcher"/> 
+        </sec:http>  
+           <bean id="csrfSecurityRequestMatcher" class="com.gw.security.CsrfSecurityRequestMatcher">
+        <property name="execludeUrls">
+            <list>
+                <value>/weixin/</value>
+            </list>
+        </property>
+    </bean>
+    
+    
+    
+    
+ <!-- 一个自定义的filter，必须包含authenticationManager,
+  accessDecisionManager,securityMetadataSource三个属性。  -->
+<!--  <bean id="myFilter" 
+  class="com。gw。security。MyFilterSecurityInterceptor">
+  <property name="authenticationManager" 
+   ref="authenticationManager"/>
+  <property name="accessDecisionManager" 
+   ref="myAccessDecisionManager"/>
+  <property name="securityMetadataSource" 
+   ref="mySecurityMetadataSource"/>
+ </bean>
+     注意能够为authentication-manager 设置alias别名 
+ <sec:authentication-manager alias="authenticationManager">
+  <sec:authentication-provider user-service-ref="myUserDetailsService">
+   <sec:password-encoder ref="passwordEncoder">
+    <sec:salt-source user-property="username" />
+   </sec:password-encoder>
+  </sec:authentication-provider>
+ </sec:authentication-manager>
+    
+     用户详细信息管理：数据源、用户缓存（通过数据库管理用户、角色、权限、资源）。
+                  /meina/src/main/java/com/gw/security/MyUserDetailsService.java
+ <bean id="myUserDetailsService" class="com。gw。security.MyUserDetailsService">
+  <property name="pubUsersHome" ref="pubUsersHome" />
+  <property name="pubAuthoritiesResourcesHome" ref="pubAuthoritiesResourcesHome" />
+  <property name="dataSource" ref="dataSource" />
+  <property name="userCache" ref="userCache" />
+ </bean>  
+    访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源。
+ <bean id="myAccessDecisionManager"
+  class="com。gw。security.MyAccessDecisionManager">
+ </bean>  
+  资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色去访问。
+ <bean id="mySecurityMetadataSource"
+  class="com。gw。security.MyInvocationSecurityMetadataSourceService">
+ </bean>  -->
+    
+	<sec:authentication-manager alias="myAuthenticationManager">
+		<!-- 使用数据库作为权限管理的来源,data-source-ref指定了数据源,所指定的数据源必须包含users, authorities表,并符合security的定义规范 -->
+		<sec:authentication-provider>
+			<sec:jdbc-user-service data-source-ref="dataSource" />
+		</sec:authentication-provider>
+		<sec:authentication-provider>
+			<sec:user-service>
+				<sec:user name="jimi" password="jimispassword" authorities="ROLE_USER, ROLE_ADMIN" />
+				<sec:user name="bob" password="bob" authorities="ROLE_ADMIN" />
+			</sec:user-service>
+		</sec:authentication-provider>
+		<sec:authentication-provider ref="SecurityFilter" >
+		</sec:authentication-provider>
+	</sec:authentication-manager> 
+	
+    <bean id="SecurityFilter" class="com.gw.security.WeixinProvider"/> 
+           <!-- 定义上下文返回的消息的国际化。 -->
+ <bean id="messageSource"
+  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+  <property name="basename"
+   value="classpath:org/springframework/security/messages_zh_CN"/>
+ </bean>
+          
+    </beans>  

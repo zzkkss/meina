@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.gw.model">
+	<class
+		name="Evaluations"
+		table="evaluations"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="Id"
+			type="integer"
+			column="Id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="ProductId"
+			column="productId"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="OrderId"
+			column="orderId"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="Score"
+			column="score"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="Title"
+			column="title"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Content"
+			column="content"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="UserId"
+			column="userId"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+
+
+	</class>	
+</hibernate-mapping>

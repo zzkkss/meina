@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.gw.model">
+	<class
+		name="WeixinUserTerminals"
+		table="weixin_user_terminals"
+	>
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="Id"
+			type="integer"
+			column="Id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="Openid"
+			column="openid"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Tname"
+			column="tname"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="CreateTime"
+			column="createTime"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="NickName"
+			column="nickName"
+			type="string"
+			not-null="true"
+			length="255"
+		/>
+		<property
+			name="Bind"
+			column="bind"
+			type="string"
+			not-null="false"
+			length="1"
+		/>
+		<property
+			name="IntervalSeconds"
+			column="intervalSeconds"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="LastTime"
+			column="lastTime"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+
+
+	</class>	
+</hibernate-mapping>

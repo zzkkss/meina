@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>  
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">  
+        <!-- encoder的默认实现类是ch.qos.logback.classic.encoder.PatternLayoutEncoder -->  
+        <encoder>  
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>  
+        </encoder>  
+    </appender>  
+    <!-- 输出到文件 -->
+<!--       <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">  
+    <file>logs//granularity.log</file>  
+    <encoder>必须指定，否则不会往文件输出内容  
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>  
+    </encoder>  
+    <append>true</append>  
+    <prudent>false</prudent>  
+</appender>   -->
+   <!-- 按照每天生成日志文件 -->   
+    <appender name="fileAppender"  class="ch.qos.logback.core.rolling.RollingFileAppender">   
+        <Encoding>UTF-8</Encoding>   
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+          <!--   <FileNamePattern>logs//myAppLog.%d{yyyy-MM-dd_HH}-%i.log</FileNamePattern>  --> 
+           
+            <FileNamePattern>..//webapps//logs//myAppLog.%d{yyyy-MM-dd_HH}-%i.log</FileNamePattern>   
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+              <MaxFileSize>10MB</MaxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- <MaxHistory>161</MaxHistory> -->
+        </rollingPolicy>   
+        <layout class="ch.qos.logback.classic.PatternLayout">  
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符--> 
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n   
+            </pattern>   
+       </layout> 
+        <!--日志文件最大的大小-->
+      <!--  <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+         <MaxFileSize>10MB</MaxFileSize>
+       </triggeringPolicy> -->
+    </appender> 
+  <!--  name值可以是包名或具体的类名：该包（包括子包）下的类或该类将采用此logger -->
+  <!--   <logger name="com.hongqitech" level="INFO">  
+        <appender-ref ref="STDOUT" />  
+    </logger>    -->
+
+    <!-- root的默认level是DEBUG -->  
+    <root level="info">  
+        <appender-ref ref="STDOUT" />  
+        <appender-ref ref="fileAppender" />  
+    </root>  
+</configuration>  

@@ -1,0 +1,80 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="org.springframework.security.web.WebAttributes"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>商户登陆</title>
+<script type="text/javascript">
+if(top.location != location){ 
+    top.location.href= location.href; 
+}  
+</script>
+<sec:csrfMetaTags />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="/shop/css/style.css" rel='stylesheet' type='text/css' />
+</head>
+<body>
+	<h1>欢迎来到美哪</h1>
+	<div class="registration">
+		<h2>欢迎使用商户管理系统</h2>
+		<div class="avtar">
+			<img src="/shop/images/color.jpg" />
+		</div>
+		<div class="form-info">
+
+			<form action="/loginShop.do" method="post" > 
+			  <div id="msg" style="display: none" ><h2 style="color: red">${msg} </h2> </div>
+    <script type="text/javascript">
+    var msg='${msg}';
+    if(msg!=null){
+    	//$("#msg").css("display","");
+    	 document.getElementById('msg').style.display="";  
+    }
+    </script>
+		<%-- 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
+				<input  id="uname"  name="username"  type="text" class="text" value="用户名" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '用户名';}">
+				 <input id="pword"  name="password"  type="text" class="text" value="密码" onfocus="this.value = '';this.type='password'" onblur="if (this.value == '') {this.type='text';this.value = '密码';}"> 
+				
+				 <!--    <div class="form_box form_verification none">
+            <div class="form_item">
+                <div class="input_box">
+                    <input id="validateSig" type="hidden"/>
+                    <input id="register_form-phone-verification" class="text_verification" type="text" placeholder="请输入验证码" maxlength="4">
+                    <img class="pic_verification" alt="" width="105" height="43">
+                    <span class="icon_refresh icon-refresh"></span>
+                </div>
+            </div>
+        </div> -->
+				 <img src="/captcha.do" />
+				<input  id="captcha"  name="captcha"  type="text" class="text" value="验证码" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '验证码';}"> 
+				
+<!-- 				 <script type="text/javascript">  
+        function reImg(){  
+            var img = document.getElementById("Img");  
+            img.src = "Img?rnd=" + Math.random();  
+        }   -->
+    </script>  
+				
+				<!-- <textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea> -->
+				<input type="submit"  value="登录">
+			</form>
+		</div>
+ 		<ul class="bottom-sc-icons">
+ 		<li><a href="/shopRegister.do" class="register">还没有账号？点击注册</a></li>
+			<!-- <li><a href="#" class="facebook"><img src="/shop/images/fb.png" />Facebook</a></li>
+			<li><a href="#" class="twitter"><img src="/shop/images/tw.png" />Twitter</a></li>
+			<div class="sc-icons">
+				<li><a href="#" class="google-p"><img src="/shop/images/gp.png" />Google +</a></li>
+				<li><a href="#" class="in"><img src="/shop/images/in.png" />Linkedin</a></li>
+			</div> -->
+		</ul> 
+		<div class="clear"></div>
+	</div>
+<!-- 	 <div class="copy-rights">
+		<p>
+			Design by <a href="#" target="_blank">zks</a>
+		</p>
+	</div>  -->
+</body>
+</html>

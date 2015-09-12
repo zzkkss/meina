@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:sec="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+	<!-- 配置不过滤的资源（静态资源及登录相关） -->
+
+	<sec:http pattern="/background/**/*.js" security="none"></sec:http>  <!-- 不过滤测试内容 -->
+	<sec:http pattern="/background/**/*.css" security="none"></sec:http>  <!-- 不过滤测试内容 -->
+	<sec:http pattern="/background/**/*.jpg" security="none"></sec:http>  <!-- 不过滤测试内容 -->
+	<sec:http pattern="/background/**/*.png" security="none"></sec:http>  <!-- 不过滤测试内容 -->
+	<!--  <sec:http pattern="/background/*.do" security="none"></sec:http>  不过滤测试内容 -->
+	<sec:http pattern="/android/*.do" security="none"></sec:http>  <!-- 不过滤测试内容 -->
+	 <sec:http pattern="/background/imgUpload.do" security="none"></sec:http> <!--不过滤测试内容 -->
+	 <sec:http pattern="/background/BaiduImgUpload.do" security="none"></sec:http> <!--不过滤测试内容 -->
+
+	<sec:http pattern="/decorators/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/jscss/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/jscss/**/*.*" security="none"></sec:http><!-- 不过滤测试内容,给baidu控件放行 -->
+	<sec:http pattern="/device/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/front/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/error/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/error/**/*.*" security="none"></sec:http><!-- 不过滤测试内容,给baidu控件放行 -->
+	<sec:http pattern="/updataimg/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+
+	<sec:http pattern="/jscss/umeditor1_2_2/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/jscss/umeditor1_2_2/**/*.*" security="none"></sec:http><!-- 不过滤测试内容 -->
+	
+	<sec:http pattern="/weixin/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/weixin/**/*.*" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/websocket/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/websocket/**/*.*" security="none"></sec:http><!-- 不过滤测试内容 -->
+	
+	<sec:http pattern="/bbs/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/bbs/admin/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/bbs/**/*.*" security="none"></sec:http><!-- 不过滤测试内容 -->
+	
+	<sec:http pattern="/loginR.do" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/registerShop.do" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/registerCustomer.do" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/loginCustomer.do" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/shop.do" security="none"></sec:http> <!--不过滤测试内容 -->
+	<sec:http pattern="/loginShop.do" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/admin.do" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<sec:http pattern="/loginAdmin.do" security="none"></sec:http><!-- 不过滤测试内容 -->
+
+	<sec:http auto-config="false" entry-point-ref="loginUrlEntryPoint" >
+	<sec:headers>
+        <sec:frame-options policy="SAMEORIGIN" />
+    </sec:headers>
+		<!-- <sec:csrf disabled="true"/> -->
+		<sec:intercept-url pattern="/map/**" access="hasAnyRole('ROLE_ADMIN','ROLE_WEIXIN')" />
+		<sec:intercept-url pattern="/background/**" access="hasRole('ROLE_ADMIN')" />
+
+	 <!-- 	<sec:form-login login-page="/login.do" 
+	
+		login-processing-url="/loginR.do" 
+		username-parameter="username" 
+		password-parameter="password" 
+		authentication-failure-url="/login.do?error=norole"
+			default-target-url="/back.do" 
+			/>  -->
+			
+			
+			
+			
+<!-- 			 authentication-success-handler-ref="expaiSuccessHandler"   -->
+
+		<!-- enable csrf protection -->
+		<sec:csrf request-matcher-ref="csrfSecurityRequestMatcher" />
+		<!-- "记住我"功能，采用持久化策略（将用户的登录信息存放在数据库表中） -->
+		<!-- <sec:remember-me data-source-ref="dataSource" /> -->
+    <sec:logout invalidate-session="true" logout-url="/login.do?logout=r"  
+        logout-success-url="/login.do" />  
+		<!-- 检测失效的sessionId,超时时定位到另外一个URL -->
+		<!-- <sec:session-management invalid-session-url="/login.do" /> -->
+		 <sec:session-management session-authentication-strategy-ref="concurrentSessionControlStrategy" />  
+     
+		 <sec:access-denied-handler ref="accessDeniedHandler" />  
+		<!-- 增加一个自定义的filter，放在FILTER_SECURITY_INTERCEPTOR之前， 实现用户、角色、权限、资源的数据库管理。 -->
+		<sec:custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+		 <sec:custom-filter ref="concurrencyFilter" position="CONCURRENT_SESSION_FILTER"/>  
+	</sec:http>
+<!-- 	<bean id="myAuthenticationSuccessHandler" class="com.gw.security.MySimpleUrlAuthenticationSuccessHandler">
+		<property name="defaultTargetUrl" value="/back.do"></property>
+		<property name="forwardToDestination" value="true"></property>
+	</bean> -->
+	<bean id="csrfSecurityRequestMatcher" class="com.gw.security.CsrfSecurityRequestMatcher">
+		<property name="execludeUrls">
+			<list>
+				
+				<value>/bbs/</value>
+				<value>/android/</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性， 我们的所有控制将在这三个类中实现，解释详见具体配置 -->
+	<bean id="myFilter" class="com.gw.security.MyFilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="accessDecisionManager" ref="myAccessDecisionManagerBean" />
+		<property name="securityMetadataSource" ref="securityMetadataSource" />
+	</bean>
+
+	<!-- 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 -->
+	<sec:authentication-manager alias="authenticationManager">
+		<sec:authentication-provider user-service-ref="myUserDetailService">
+			<!-- 如果用户的密码采用加密的话，可以加点“盐” <password-encoder hash="md5" /> -->
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+	<bean id="myUserDetailService" class="com.gw.security.MyUserDetailsService">
+	</bean>
+
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
+	<bean id="myAccessDecisionManagerBean" class="com.gw.security.MyAccessDecisionManager">
+	</bean>
+
+	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
+	<bean id="securityMetadataSource" class="com.gw.security.MySecurityMetadataSource">
+
+		<constructor-arg name="mainResourcesDao" ref="mainResourcesDao"></constructor-arg>
+		<constructor-arg name="mainAuthoritiesResourcesDao" ref="mainAuthoritiesResourcesDao"></constructor-arg>
+		<constructor-arg name="mainAuthoritiesDao" ref="mainAuthoritiesDao"></constructor-arg>
+	</bean>
+<!-- session处理  -->
+<bean id="concurrentSessionControlStrategy"  
+    class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">  
+    <constructor-arg name="sessionRegistry" ref="sessionRegistry" />  
+    <!-- 可以设置最大session数量 -->
+   <!--  <property name="maximumSessions" value="1"></property>   -->
+</bean>  
+<bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" /> 
+
+<bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter">  
+    <constructor-arg name="sessionRegistry" ref="sessionRegistry" />  
+    <constructor-arg name="expiredUrl" value="/sessionOut.jsp" />  
+</bean>  
+	<!-- <sec:authentication-manager alias="myAuthenticationManager"> 使用数据库作为权限管理的来源,data-source-ref指定了数据源,所指定的数据源必须包含users, authorities表,并符合security的定义规范 <sec:authentication-provider> <sec:jdbc-user-service 
+		data-source-ref="dataSource" /> </sec:authentication-provider> <sec:authentication-provider> <sec:user-service> <sec:user name="jimi" password="jimispassword" authorities="ROLE_USER, ROLE_ADMIN" /> <sec:user 
+		name="bob" password="bob" authorities="ROLE_ADMIN" /> </sec:user-service> </sec:authentication-provider> <sec:authentication-provider ref="SecurityFilter" > </sec:authentication-provider> </sec:authentication-manager> 
+		<bean id="SecurityFilter" class="com.gw.security.WeixinProvider"/> -->
+	<!-- 定义上下文返回的消息的国际化。 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:org/springframework/security/messages_zh_CN" />
+	</bean>
+<!-- 自定义权限不足处理程序 -->  
+ <bean id="accessDeniedHandler"  class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+    <property name="errorPage" value="/error/error/403.jsp"></property>  
+</bean>   
+<!--  <bean id="accessDeniedHandler" class="com.gw.security.MyAccessDeniedHandler">  
+    <property name="errorPage" value="/error/error/403.jsp"></property>  
+</bean>    -->
+<!-- 自定义多用户登录 -->
+<bean id="loginUrlEntryPoint" class="com.gw.security.LoginUrlEntryPoint"></bean>
+</beans>  

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.gw.model">
+	<class
+		name="MainUsers"
+		table="main_users"
+	>
+		<meta attribute="sync-DAO">false</meta>
+
+		<meta attribute="sync-DAO">false</meta>
+
+		<id
+			name="Id"
+			type="integer"
+			column="Id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="Username"
+			column="username"
+			type="string"
+			not-null="true"
+			length="50"
+		/>
+		<property
+			name="Password"
+			column="password"
+			type="string"
+			not-null="false"
+			length="50"
+		/>
+		<property
+			name="Enabled"
+			column="enabled"
+			type="boolean"
+			not-null="false"
+		/>
+		<property
+			name="WeixinUserId"
+			column="weixinUserId"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+
+
+	</class>	
+</hibernate-mapping>

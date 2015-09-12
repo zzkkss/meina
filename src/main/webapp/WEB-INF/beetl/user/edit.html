@@ -1,0 +1,89 @@
+@ layout("/common/_layoutAndroid.html"){
+<div id="login-box" class="row">
+    <form action="${base}/bbs/user/update" method="post">
+        <p class="hide">邮箱或者密码错误 ：（</p>
+        <input type="hidden" name="user.id" class="form-control" value="${user.id!}">
+        
+         <div class="form-group">
+      <label for="user.email">邮箱：</label>
+      <input type="text" name="user.email" class="form-control" value="${user.email!}">
+      <span class="-error-msg">${emailMsg!}</span>
+  		 </div>
+         <div class="form-group">
+      <label for="user.username">昵称：</label>
+     <input type="text" name="user.username" class="form-control" value="${user.username!}">
+      <span class="-error-msg">${usernameMsg!}</span>
+  		 </div>
+  		  <div class="form-group">
+      <label for="user.blogUrl">博客：</label>
+     <input type="text" name="user.blogUrl" class="form-control" value="${user.blogUrl!}" class="input-xlarge">
+            <span class="-error-msg">${blogUrlMsg!}</span>
+  		 </div>
+  		 <div class="form-group">
+      <label for="user.headImg">头像：</label>
+        <a onClick="window.demo.clickOnAndroid()"><span class="glyphicon glyphicon-camera"></span>使用相机</a><br/>
+     <textarea type="text" name="user.headImg" class="form-control" rows="2" class="input-xxlarge">${user.headImg!}</textarea>
+            <span class="-error-msg">${headImgMsg!}</span>
+  		 </div>
+  		  <div class="form-group">
+      <label for="user.feeling">签名：</label>
+    <textarea type="text" name="user.feeling" rows="3" class="form-control input-xxlarge">${user.feeling!}</textarea>
+            <span class="-error-msg">${feelingMsg!}</span>
+  		 </div>
+       
+        <p>
+            <span class="-label">&nbsp;</span><input type="submit" value="更新资料" class="btn btn-success">
+        </p>
+        <p>
+            <span class="-label">&nbsp;</span>
+            <span>基情提示：头像暂时不支持本地图片上传，可以选用的图片源如下：任何人的sina或者qq微博个人中心的头像，百度贴吧发帖用的表情，百度个人中心任何人的头像，等等 ^O^ 。</span>
+        </p>
+    </form>
+</div>
+
+<!-- <div>
+    <li>
+        <p>Here is the funtion to TakePhoto in html</p>
+        通过"window.demo.clickOnAndroid"触发android中的clickOnAndroid方法
+        <a onClick="window.demo.clickOnAndroid()">TakePhoto</a><br/>
+        <span id='droid'>Photopath:</span>
+        <br/>
+        <br/>
+        <p>Here is the funtion to revert in html</p>
+        <input type="button" onclick="revert();" value="Revert" /> <br/>
+        <input type="button" onclick="javascript:window.top.location.reload()" value="Refresh" />
+    </li>
+</div>
+<div>
+    <p id="picpath">PhotoPathhhhhhhh</p>
+    <img alt="ddd" id="pic0" width="200" height="200" src="file:///storage/emulated/0/DCIM/Camera/IMG_20150123_211728.jpg\" />
+</div> -->
+ <script type="text/javascript">
+
+        //android中调用js方法
+        function wave() {
+            alert('cc2');
+            document.getElementById("droid").innerHTML ="select.png";
+        }
+
+        //android中调用js方法2，并更id为"droid"的span标签的值及新刚拍的照片显示到"pic0"里
+        function wave2(name) {
+            alert(name);
+            document.getElementById("droid").innerHTML = "Photopath: " + name;
+            document.getElementById("pic0").src=name;
+        }
+
+        //html的点击事件，并通过"window.demo.clickOnAndroid"触发android中的clickOnAndroid方法
+        function clickOnHtml () {
+            var fileName = window.demo.clickOnAndroid();
+            //wave2(fileName);
+        }
+
+        //
+        function revert() {
+            alert('cc');
+            document.getElementById("droid").innerHTML ="aa2";
+        }
+
+    </script>
+@ }

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{width:100%;height:100%;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=tHkUgRj9hHQ26hHlBf20X9jg"></script>
+	<title>店铺地址</title>
+    <script type="text/javascript">
+
+    </script>
+    <style type="text/css">
+      .header {
+    position: fixed;
+    pointer-events: all;
+    z-index: 999999;
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 55px;
+    max-height: 100%;
+    transform: translateY(0px);
+    -webkit-transform: translateY(0px);
+    transition: all 250ms ease-in-out;
+    border-bottom: solid 1px rgba(0,0,0,0.1);
+}
+     #content{
+    padding-top: 55px;
+    } 
+    
+ .title {
+  background: #fd888e none repeat scroll 0 0;
+  font-size: 14pt;
+  font-weight: bold;
+  height: 55px;
+  line-height: 55px;
+  text-align: center;
+}
+ .top span.back-btn {
+  background: rgba(0, 0, 0, 0) url("images/back.png") repeat scroll 0 0;
+  left: 18px;
+  width: 45px;
+}
+ .top span.back-btn, .wrap .title div.nav-btn {
+  cursor: pointer;
+  display: block;
+  height: 55px;
+  position: absolute;
+  top: 0;
+}
+    </style>
+</head>
+<body>
+<div class="header">
+
+    <div class="title tc pr top">
+        <span id="shoptitle"></span>
+        <span class="back-btn" onclick="goBack()"></span>
+
+        <div class="nav-btn">
+        </div>
+    </div>
+
+</div>
+<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+function goBack()
+{
+window.history.back();
+}
+  //  http://localhost:8080/front/baidu.html?coordinate=116.5633,39.91
+  // &title=%E9%98%BF%E6%96%AF%E5%A4%A7%E8%8B%8F%E6%89%93&addr=
+  // %E5%8C%97%E4%BA%AC%E5%B8%82%E4%B8%AD%E5%85%B3%E6%9D%91%E5%8D%97%E5%A4%A7%E8%A1%97%E7%94%B2%E5%8D%81%E5%8F%B7%E9%93%B6%E6%B5%B7%E5%A4%A7%E5%8E%A6
+    //city=
+  function GetQueryString(name)
+  {
+      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      if(r!=null)return  decodeURI(r[2]); return null;
+  }
+  var coordinate=GetQueryString("coordinate");
+  var title=(GetQueryString("title"));
+  var addr=(GetQueryString("addr"));
+  var city=(GetQueryString("city"));
+    document.getElementById("shoptitle").innerHTML=title;
+    
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+//	var point = new BMap.Point(116.417854,39.921988);
+	var point = new BMap.Point(parseFloat(coordinate.split(',')[0]),parseFloat(coordinate.split(',')[1]));
+	var marker = new BMap.Marker(point);  // 创建标注
+	map.addOverlay(marker);              // 将标注添加到地图中
+	map.centerAndZoom(point, 15);
+	var opts = {
+	  width : 200,     // 信息窗口宽度
+	  height: 100,     // 信息窗口高度
+	  title : title , // 信息窗口标题
+
+	}
+	var infoWindow = new BMap.InfoWindow("地址："+addr, opts);  // 创建信息窗口对象
+	map.openInfoWindow(infoWindow,point); //开启信息窗口
+	marker.addEventListener("click", function(){
+		map.openInfoWindow(infoWindow,point); //开启信息窗口
+	});
+	
+	
+ 
+</script>
+

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>优惠券</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="jscss/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="jscss/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="jscss/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <!-- jqueryUI评分插件-->
+    <script type="text/javascript" src="jscss/xingping/lib/jquery.raty.min.js"></script>
+    <script type="text/javascript">
+
+
+//        $(document).ready(function () {
+//            $(".yyxd").click(function () {
+////                $(this).hide();
+//                location.href = "yyxd.html?yyxd=" + $(this).attr("data-yyxd");//location.href实现客户端页面的跳转
+//            });
+//        });
+    </script>
+    <script>
+        $(function() {
+            // 运行当前选中的特效
+            function runEffect() {
+//                // 从中获取特效类型
+//                var selectedEffect = $( "#effectTypes" ).val();
+//
+//                // 大多数的特效类型默认不需要传递选项
+                var options = {};
+//                // 一些特效带有必需的参数
+//                if ( selectedEffect === "scale" ) {
+//                    options = { percent: 100 };
+//                } else if ( selectedEffect === "size" ) {
+//                    options = { to: { width: 280, height: 185 } };
+//                }
+
+                // 运行特效
+                $( "#effect" ).show( "blind", options, 50, callback );
+            };
+
+            // 回调函数
+            function callback() {
+                setTimeout(function() {
+                    $( "#effect:visible" ).removeAttr( "style" ).fadeOut();
+                }, 1000 );
+                $( "#effect" ).position({
+                    my: "center",
+                    at: "center",
+                    of: "body"
+                });
+            };
+
+            // 根据选择菜单值设置特效
+            $( ".yyxd" ).click(function() {
+                if(true){
+                    runEffect();
+                }else{
+                    alert($(this).attr("data-product"));
+                }
+                location.href = "yyxd.html?product="+$("#productTitle").attr("data-id");//location.href实现客户端页面的跳转
+                return false;
+            });
+
+            $( "#effect" ).hide();
+        });
+        $(function () {
+        $.fn.raty.defaults.path = 'lib/img';
+        $('#function-demo1').raty({
+            number: 10,//多少个星星设置
+            score: 2,//初始值是设置
+            targetType: 'number',//类型选择，number是数字值，hint，是设置的数组值
+            path      : 'jscss/xingping/lib/img',
+            cancelOff : 'cancel-off.png',
+            cancelOn  : 'cancel-on.png',
+            size      : 24,
+            starHalf  : 'star-half.png',
+            starOff   : 'star-off.png',
+            starOn    : 'star-on.png',
+//            target    : '#function-hint1',
+            readOnly:true,
+            cancel    : false,
+            targetKeep: true,
+            precision : false//是否包含小数
+//            click: function(score, evt) {
+//                alert('ID: ' + $(this).attr('id') + "\nscore: " + score + "\nevent: " + evt.type);
+//            }
+        });
+        });
+    </script>
+    <style type="text/css">
+.yhpj{
+    margin-top: 5px;
+}
+    </style>
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <div class="row-fluid">
+
+
+        <div class="thumbnail">
+            <img class="img-responsive" alt="300x200" src="img/shop/product1.png"/>
+            <div class="caption">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"  id="productTitle" data-id="100">优惠券名称</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <h3>
+                            优惠说明
+                        </h3>
+
+                        <p>
+                            优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明
+                            优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优
+                            惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明优惠说明
+                        </p>
+
+                        <p>
+                            <!-- 提供额外的视觉效果，标识一组按钮中的原始动作 -->
+                            <button type="button" class="btn btn-primary yyxd" data-product="100">获取优惠券</button>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+    <div id="effect" >
+        <div class="alert alert-warning center-block">请先登录。</div>
+    </div>
+</body>
+</html>

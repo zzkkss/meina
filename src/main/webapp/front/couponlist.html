@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>附近店铺</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="jscss/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="jscss/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="jscss/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+        	  /*优惠券*/
+            var params = {
+                "rows" : 5,
+                "page" : 1
+            };
+            /*  http://localhost:8080/shopsList.do?rows=5&page=1 */
+            var actionUrl = "/couponsList.do";
+            // 从Server读取对应ID的JSON数据
+            $.ajax( {
+                type:"get",
+                url : actionUrl,
+                data : params,
+                dataType : "json",
+                cache : false,
+                error : function(textStatus, errorThrown) {
+                    alert("系统ajax交互错误: " + textStatus);
+                },
+                success : function(data, textStatus) {
+                    // 如果读取结果成功，则将信息载入到对话框中
+                    for(var i=0;i<data.entity.length;i++){
+                        try{
+                        	 var ab="<div class='row'  style='border: silver 1px solid;' onclick='toCoupon("+data.entity[i].id+")'>" +
+                             "<div class='row couponList'><div class='col-md-3 col-xs-3 col-sm-3  '>" +
+                             "<img src='\/uploadimg\/"+data.entity[i].img.substring(1,data.entity[i].img.length-1)+"' class='img-thumbnail center-block' alt='"+data.entity[i].name+"'></div>" +
+                             "<div class='col-md-9 col-xs-9 col-sm-9'><div class='row couponListRight1'>" +
+                             "<strong>"+data.entity[i].name+"</strong><br>" +
+                  
+                             "</div>" +
+                             "<div class='row couponListRight2'>" +
+                             "<p> "+data.entity[i].description+"</p><p>有效期："+data.entity[i].startTime+"至"+data.entity[i].startTime+
+                             "</p></div></div></div><div class='row text-nowrap' >" +
+                             "<div class='col-md-12 col-xs-12 col-sm-12'><p>"+ "仅限在："+data.entity[i].shopsId+" 使用</p></div></div></div></a>";
+                             
+                            var ab= "<div class='row couponList text-nowrap' style='overflow:hidden' onclick='toCoupon("+data.entity[i].id+")'>" +
+                                    "<div class='col-md-3 col-xs-3 col-sm-3  col3'>" +
+                                    "<img class='img-responsive' src='\/uploadimg\/"+data.entity[i].img.substring(1,data.entity[i].img.length-1)+"'alt='"+data.entity[i].name+"'><\/div>" +
+                                    "<div class='col-md-9 col-xs-9 col-sm-9 col9'><div class='row-fluid  couponListRight1'>" +
+                                    "<span >"+data.entity[i].name+"<\/span><\/div><div class='row-fluid  couponListRight2'><span >"+data.entity[i].description+"<\/span><\/div>" +
+                                    "<\/div><\/div>"+
+                                    "<div class='row' style='border: solid #00ff00 1px'><\/div>";
+
+                            $("#couponlist").append(ab);
+                        }catch(e){
+
+                        }
+                    }
+                    $(".couponList").css("height", parseFloat($("#couponList").width())*0.2 );
+                    $(".couponList img").css("height", parseFloat($("#couponList").width())*0.2 );
+                    $(".couponListRight1 ").css("height", parseFloat($("#couponList").width())*0.2*0.3 );
+//                    $(".couponListRight2 ").css("height", parseFloat($("#couponList").width())*0.2*0.3 );
+                }
+
+            });
+          
+
+        });
+        function toCoupon(id){
+            // location.href = "shop.html?shop="+id;//location.href实现客户端页面的跳转
+         }
+    </script>
+</head>
+
+<body>
+
+
+<div class="container-fluid">
+
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title"></h3>
+        </div>
+        <div class="panel-body" id="couponList">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

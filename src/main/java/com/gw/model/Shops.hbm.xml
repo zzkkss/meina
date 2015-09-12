@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.gw.model">
+	<class
+		name="Shops"
+		table="shops"
+	>
+		<meta attribute="sync-DAO">false</meta>
+
+		<meta attribute="sync-DAO">false</meta>
+
+		<id
+			name="Id"
+			type="integer"
+			column="Id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="Title"
+			column="title"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Content"
+			column="content"
+			type="string"
+			not-null="false"
+		/>
+		<property
+			name="Img"
+			column="img"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Type"
+			column="type"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="Address"
+			column="address"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Phone"
+			column="phone"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Coordinate"
+			column="coordinate"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="City"
+			column="city"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="UsersId"
+			column="usersId"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="Litimg"
+			column="litimg"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Evaluate"
+			column="evaluate"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="About"
+			column="about"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="Cityid"
+			column="cityid"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+
+
+	</class>	
+</hibernate-mapping>

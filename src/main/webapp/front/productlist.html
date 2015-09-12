@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>商户列表</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="jscss/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="jscss/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="jscss/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<!-- 星级插件 -->
+    <script src="jscss/bootstrap-star-rating-master/js/star-rating.min.js"></script>
+    <link rel="stylesheet" href="jscss/bootstrap-star-rating-master/css/star-rating.min.css">
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+
+             var params = {  
+                    "page":0,
+                    "rows":5
+                };   
+                var actionUrl = "productsList.do";  
+                // 从Server读取对应ID的JSON数据  
+                $.ajax( {  
+                	 type:"get",
+                    url : actionUrl,  
+                    data : params,   
+                    dataType : "json",  
+                    cache : false,  
+                    error : function(textStatus, errorThrown) {  
+                        alert("系统ajax交互错误: " + textStatus);  
+                    },  
+                    success : function(data, textStatus) {  
+                        // 如果读取结果成功，则将信息载入到对话框中   
+                        for(var i=0;i<data.entity.length;i++){
+                        	try{
+                             var pla="<div style='overflow:hidden' class='row productList text-nowrap' id='"+data.entity[i].id+"' onclick='yyfw("+data.entity[i].id+")'>" +
+                             "<div class='col-md-3 col-xs-3 col-sm-3'><img alt='"+data.entity[i].name+"' src='\/uploadimg\/"+data.entity[i].img.substring(1,data.entity[i].img.length-1)+"'class='img-thumbnail'></div>" +
+                             "<div class='col-md-9 col-xs-9 col-sm-9'><div class='row productListRight1'><span style='font-size: 2rem'>"+data.entity[i].name+"</span>" +
+                             "</div><div class='row productListRight2'><span style='font-size: 1rem'>"+ "地址："+data.entity[i].description+"</span>" +
+                             "</div><div class='row productListRight3'><div style='bottom: 0px;position: absolute' class='container'>" +
+                             "<div class='col-xs-7 col-sm-7 col-md-7 '><span style='font-size: 1rem'>";
+                             var plby="<span class='glyphicon glyphicon-star' style='color:#ffd700;'></span>";
+                             var plbn="<span class='glyphicon glyphicon-star' ></span>";
+                             var plb='综合评级：';
+                             for(var m=0;m<5;m++){
+                            	 //if(i<data[i].eva){
+                            	 if(m<2){
+                            		 plb+=plby;
+                            	 }else{
+                            		 plb+=plbn;
+                            	 }
+                             }
+                             /* "<input id='input-id' type='number' class='rating' min=0 max=5 step=1  data-size='xs' data-show-clear='false' readonly='true'/>"+ */
+                             /* "<span class='glyphicon glyphicon-star' style='color:#ffd700;'></span>"+ */
+                             var plc="</span></div><div class='col-xs-5 col-sm-5 col-md-5 pull-right'>" +
+                             "<span style='font-size: 1rem'>"+ "价格："+data.entity[i].price+"元</span></div></div></div></div></div>"+
+                             "<div class='row' style='border: solid #00ff00 1px'><\/div>";
+                             var pl=pla+plb+plc;
+                       $(".panel-body").append(pl); 
+                        	}catch(e){
+                        		alert(e);
+                        	}
+                        }
+                         
+                     	 $(".carousel-inner img").css("height", parseFloat($(window).height()) * 0.3);
+                      /*    console.info($("body").css("height"));
+                         console.info($(document.body).height());
+                         console.info($(window).height()); */
+                        // $(".thumbnail img").css("height", parseFloat($(".shop").width()) * 0.6);
+//                         $(".shopList").css("height", parseFloat($(".shopList img ").width()) );
+                         $(".productList  img").css("height", parseFloat($(window).width())*0.3 );
+                         $(".productListRight1").css("height", parseFloat($(window).width())*0.3*0.3 );
+                         $(".productListRight2").css("height", parseFloat($(window).width())*0.3*0.3 );
+                         $(".productListRight3").css("height", parseFloat($(window).width())*0.3*0.3 );
+                         /* console.info($(".img-responsive img").css("width"));
+                         console.info($(".productList img").width()); */
+                       /*   <input id="asas" type="number" class="rating" min=0 max=5 step=1 value="2" data-size="xs" /> */
+                    }  
+                 
+                });  
+         
+
+
+            $(".shop").click(function () {
+//                $(this).hide();
+                location.href = "shop.html?shop=" + $(this).attr("data-shop");//location.href实现客户端页面的跳转
+            });
+        });
+        
+       
+        function yyfw(e){
+            alert(e);
+        }
+    </script>
+</head>
+
+<body>
+
+
+<div class="container-fluid">
+
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title">热门商户</h3>
+        </div>
+        <div class="panel-body">
+             <input id="asas" type="number" class="rating" min=0 max=5 step=1 value="2" data-size="xs" />
+            <!--   <input id="input-24" class="rating-loading">
+<table>
+    <tr>
+        <th>Custom Clear Button</th>
+        <th>Caption Location</th>
+    </tr>
+    <tr>
+        <td><span id="kv-clear"></span></td>
+        <td><span id="kv-caption"></span></td>
+    </tr>
+</table>              -->
+                           
+   <!--          <div class="row shopList" >
+                <div class="col-md-3 col-xs-3 col-sm-3  ">
+                    <img src="img/index/sanlitun.JPG" class="img-thumbnail"
+                         alt="爱小小美甲">
+                </div>
+                <div class="col-md-9 col-xs-9 col-sm-9">
+                    <div class="row shopListRight1">
+                        <h3 style="font-size: 1rem">小小美甲</h3>
+                    </div>
+                    <div class="row shopListRight2">
+                        <p style="font-size: 1rem"> 地址：北京市朝阳区三里屯
+                            电话：01064166006
+                        </p>
+                    </div>
+                    <div class="row shopListRight3">
+                        <div class="container" style="bottom: 0px;position: absolute">
+                            <div class="col-xs-5 col-sm-5 col-md-5" >
+                                <p style="font-size: 1rem">地址：北京市朝阳区三里屯
+                                    电话：01064166006
+                                </p>
+                            </div>
+                            <div class="col-xs-7 col-sm-7 col-md-7">
+                                <p style="font-size: 1rem"> 距离：800米
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row " style="border: solid"></div> -->
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

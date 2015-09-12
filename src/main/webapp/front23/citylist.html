@@ -1,0 +1,123 @@
+<!DOCTYPE HTML><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui"/>
+
+    <title>已开通城市</title>
+
+    <link href="styles/style.css"     		 rel="stylesheet" type="text/css">
+    <link href="styles/framework.css" 		 rel="stylesheet" type="text/css">
+    <link href="styles/owl.theme.css" 		 rel="stylesheet" type="text/css">
+    <link href="styles/swipebox.css"		 rel="stylesheet" type="text/css">
+    <link href="styles/font-awesome.css"	 rel="stylesheet" type="text/css">
+    <link href="styles/animate.css"			 rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="scripts/jquery-2.1.4.min.js"></script>
+
+    <script type="text/javascript" src="scripts/jqueryui.js"></script>
+    <script type="text/javascript" src="scripts/framework.plugins.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript">
+
+    </script>
+    <style type="text/css">
+        .header {
+            position: fixed;
+            pointer-events: all;
+            z-index: 999999;
+            background-color: #FFFFFF;
+            width: 100%;
+            height: 55px;
+            max-height: 100%;
+            transform: translateY(0px);
+            -webkit-transform: translateY(0px);
+            transition: all 250ms ease-in-out;
+            border-bottom: solid 1px rgba(0,0,0,0.1);
+        }
+        #content{
+            padding-top: 55px;
+        }
+
+        .title {
+            background: #fd888e none repeat scroll 0 0;
+            font-size: 14pt;
+            font-weight: bold;
+            height: 55px;
+            line-height: 55px;
+            text-align: center;
+        }
+        .top span.back-btn {
+            background: rgba(0, 0, 0, 0) url("images/back.png") repeat scroll 0 0;
+            left: 18px;
+            width: 45px;
+        }
+        .top span.back-btn, .wrap .title div.nav-btn {
+            cursor: pointer;
+            display: block;
+            height: 55px;
+            position: absolute;
+            top: 0;
+        }
+    </style>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var params = {
+       /*         "shoptype":shoptype,
+                "rows" : 5,
+                "page" : 1*/
+            };
+            /*  http://localhost:8080/shopsList.do?rows=5&page=1 */
+            var actionUrl = "/android/citylist.do";
+            // 从Server读取对应ID的JSON数据
+            jQuery.ajax( {
+                type:"get",
+                url : actionUrl,
+               // data : params,
+                dataType : "json",
+                cache : false,
+                error : function(textStatus, errorThrown) {
+                    alert("系统ajax交互错误: " + textStatus);
+                },
+                success : function(data, textStatus) {
+                    // 如果读取结果成功，则将信息载入到对话框中
+                    for(var i=0;i<data.length;i++){
+                        try{
+                            var cd="<li><a href='\/front/index.html?city="+data[i].name+"' >"+data[i].name+"</a></li>";
+                            jQuery("#city").append(cd);
+                        }catch(e){
+
+                        }
+                    }
+
+                }
+
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div id="preloader">
+    <div id="status">
+        <p class="center-text">
+            正在加载……
+            <em>加载时间与您的网速有关</em>
+        </p>
+    </div>
+</div>
+<div class="header">
+
+    <div class="title tc pr top">
+        <span id="shoptitle"></span>
+        <span class="back-btn" onclick="goBack()"></span>
+
+        <div class="nav-btn">
+        </div>
+    </div>
+
+</div>
+<div class="container">
+    <ul class="normal-list" id="city"></ul>
+
+</div>
+</body>
+

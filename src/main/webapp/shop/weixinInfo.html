@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>商户信息</title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="/jscss/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+
+<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+<link rel="stylesheet" href="/jscss/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/jscss/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css">
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="/jscss/jquery-2.1.4.min.js"></script>
+<script src="/jscss/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="/jscss/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<!-- WEBUPLOADER -->
+<link rel="stylesheet" type="text/css" href="/jscss/diyUpload/css/webuploader.css">
+<link rel="stylesheet" type="text/css" href="/jscss/diyUpload/css/diyUpload.css">
+<script type="text/javascript" src="/jscss/diyUpload/js/webuploader.html5only.min.js"></script>
+<script type="text/javascript" src="/jscss/diyUpload/js/diyUpload.js"></script>
+<!-- Uedit -->
+<link href="/jscss/umeditor1_2_2/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" charset="utf-8" src="/jscss/umeditor1_2_2/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/jscss/umeditor1_2_2/umeditor.min.js"></script>
+<script type="text/javascript" src="/jscss/umeditor1_2_2/lang/zh-cn/zh-cn.js"></script>
+<!-- baidu -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=tHkUgRj9hHQ26hHlBf20X9jg"></script>
+<style type="text/css">
+.ui-dialog {
+	z-index: 9999;
+}
+</style>
+</head>
+<body>
+	<div id="page-wrapper" class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">商户信息</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		<!-- /.row -->
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">此处可以编辑商户首页信息。</div>
+					<div class="panel-body">
+						<div class="row">
+							<form role="form">
+								<div class="col-xs-6">
+									<div class="form-group">
+									<div class="col-xs-6">
+										<label>名称</label> <input type="text" class="form-control" id="title" placeholder="请输入名称">
+										<p class="help-block">商户名称</p>
+										</div>
+									<div class="col-xs-6">
+										 <label >选择主营业务</label>
+									      <select class="form-control" id="type">
+									        	<option value="1">美甲</option>
+												<option value="2">纤体</option>
+												<option value="3">美睫</option>
+												<option value="4">美发</option>
+												<option value="5">微整</option>
+												<option value="6">美妆</option>
+									      </select>
+										</div>
+										
+									</div>
+								
+									<div class="form-group">
+										<label for="name">商户介绍:</label>
+										<!--style给定宽度可以影响编辑器的最终宽度-->
+										<script type="text/plain" id="myEditor" style="width: 100%; height: 240px;">
+  				  <p>请输入商户介绍</p>
+			</script>
+										<p class="help-block">商户首页显示的商户介绍，可以使用HTML排版。</p>
+									</div>
+							<div class="form-group">
+										<label for="inputfile">地图位置</label>
+										<div id="baidumapDiv" style="width: 100%; height: 500px;">
+											<div id="baidumap" style="width: 100%; height: 100%;"></div>
+										</div>
+
+									</div>
+										<button type="button" class=" btn btn-primary btn-lg btn-block" id="upshopinfo">提交修改</button>
+								</div>
+								<!-- /.col-lg-6 (nested) -->
+								<div class="col-xs-6">
+								
+									<div class="form-group">
+										<label>联系电话</label> <input type="text" class="form-control" id="phone" placeholder="请输入联系电话">
+										<p class="help-block">联系电话</p>
+									</div>
+									<div class="form-group">
+										<label>简介</label> <input type="text" class="form-control" id="about" placeholder="请输入简介">
+										<p class="help-block">简介显示在商户列表中，简介不超过100个字符（50个汉字）。</p>
+									</div>
+									<!--   <div class="form-group">
+                                            <label>Static Control</label>
+                                            <p class="form-control-static">email@example.com</p>
+                                        </div> -->
+
+									<div class="form-group">
+										<div class="col-xs-3">
+											<label for="name">请选择省份</label><br> <select id="yiji"></select>
+										</div>
+										<div class="col-xs-3">
+											<label for="name">请选择城市</label><br> <select id="erji"></select>
+											<script type="text/javascript">
+		var cityid=300;var city="北京";
+		$('#erji').change(function(){ 
+			cityid=$('#erji option:selected').val();
+			city=$('#erji option:selected').text();
+		});
+		$('#yiji').change(function(){ 
+			cityid=$('#yiji option:selected').val();
+			city=$('#yiji option:selected').text();
+		 var params = {  
+		           "parentId":$('#yiji option:selected').val()
+		       };   
+		       var actionUrl = "/citylistByParentId.do";  
+		       // 从Server读取对应ID的JSON数据  
+		       $.ajax( {  
+		       	 type:"get",
+		           url : actionUrl,  
+		           data : params,   
+		           dataType : "json",  
+		           cache : false,  
+		           error : function(textStatus, errorThrown) {  
+		               alert("系统ajax交互错误: " + textStatus);  
+		           },  
+		           success : function(data, textStatus) {  
+		               // 如果读取结果成功，则将信息载入到对话框中   
+		               	try{
+		               			$("#erji").empty();
+		               			if(data.length<2){
+		               				$("#erji").append("<option value='"+$('#yiji option:selected').val()+"'>"+$('#yiji option:selected').text()+"</option>");
+		               			}
+		               		for(var i=0;i<data.length;i++){
+		               		$("#erji").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+		               		}
+		               	}catch(e){
+		               		alert(e);
+		               	}
+		           }  
+		        
+		       });  
+		});
+		//获取信息
+		$(function() {
+	    var params = {  
+	           "parentId":0
+	       };   
+	       var actionUrl = "/citylistByParentId.do";  
+	       // 从Server读取对应ID的JSON数据  
+	       $.ajax( {  
+	       	 type:"get",
+	           url : actionUrl,  
+	           data : params,   
+	           dataType : "json",  
+	           cache : false,  
+	           error : function(textStatus, errorThrown) {  
+	               alert("系统ajax交互错误: " + textStatus);  
+	           },  
+	           success : function(data, textStatus) {  
+	               // 如果读取结果成功，则将信息载入到对话框中   
+	               	try{
+	               		for(var i=0;i<data.length;i++){
+	               		$("#yiji").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+	               		}
+	               		$("#erji").append("<option value='"+$('#yiji option:selected').val()+"'>"+$('#yiji option:selected').text()+"</option>");
+	               	}catch(e){
+	               		alert(e);
+	               	}
+	           }  
+	        
+	       });  
+		}); 
+		</script>
+										</div>
+										<div class="col-xs-6">
+											<label for="name">地址</label><br> <input type="text" class="form-control" id="addr" placeholder="请输入地址">
+											<p class="help-block">请填写详细信息,不用填写前面已经选择的地址。</p>
+										</div>
+									</div>
+								
+								
+									<div class="form-group " style="height: 200px;">
+										<label for="name">滚动图：<small>修改时，请一次提交三张图片。</small></label>
+										<div class="form-control" id="suoluetudaxiao">
+											<div class="thumbnail col-sm-4 col-xs-4 col-md-4">
+												<img id="img1" style="width: 100%;" src="" />
+											</div>
+											<div class="thumbnail col-sm-4 col-xs-4 col-md-4">
+												<img id="img2" style="width: 100%;" src="" />
+											</div>
+											<div class="thumbnail col-sm-4 col-xs-4 col-md-4">
+												<img id="img3" style="width: 100%;" src="" />
+											</div>
+										
+										</div>
+										<script type="text/javascript">
+			$("#suoluetudaxiao img").height($("#suoluetudaxiao").width()*0.3*0.5);
+			</script>
+									</div>
+
+									<div class="form-group">
+										<label for="inputfile">编辑滚动图</label>
+										<div id="box" style="width: 100%; min-height: 50px;">
+											<div id="test"></div>
+										</div>
+											<p class="help-block">滚动图长宽比2：1，最小分辨率不低于300：150，最大分辨率不高于2160：1080,建议使用900：450。</p>
+									</div>
+		<div class="form-group" style="height: 200px;">
+										<label for="litimg">缩略图</label>
+										<div class="form-control" id="suoluetudaxiao">
+											<div class="thumbnail ">
+												<img id="litimg" src="" style="height: 150px; width: 150px;" />
+											</div>
+											
+										</div>
+
+
+										<script type="text/javascript">
+			</script>
+									</div>
+	<div class="form-group">
+										<label for="inputfile">编辑缩略图</label>
+										<div id="box" style="width: 100%; min-height: 50px;">
+											<div id="litimgbtn"></div>
+										</div>
+										<p class="help-block">缩略图长宽比1：1，最小分辨率100*100，最大分辨率250*250，推荐使用150*150。</p>
+									</div>
+								
+									
+									<!-- /.col-lg-6 (nested) -->
+							</form>
+						</div>
+						<!-- /.row (nested) -->
+					</div>
+					<!-- /.panel-body -->
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /#page-wrapper -->
+
+
+
+
+
+</body>
+
+<script type="text/javascript">
+
+/* function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var userid=GetQueryString("userid");
+if(userid==null){
+	userid=1;
+} */
+var shopid;
+$(document).ready(function () {
+    //实例化编辑器
+    var um = UM.getEditor('myEditor');
+	//地图
+	var cooo;
+	var map = new BMap.Map("baidumap");
+	map.addControl(new BMap.NavigationControl());    
+	//map.disableScrollWheelZoom();
+	//单击获取点击的经纬度
+	map.addEventListener("click",function(e){
+		map.clearOverlays();
+		var marker = new BMap.Marker(e.point);  // 创建标注
+   		map.addOverlay(marker);              // 将标注添加到地图中
+   		
+		cooo=(e.point.lng + "," + e.point.lat);
+	});
+	
+   
+	//获取信息
+/*     var params = {  
+           "userId":userid
+       };  */  
+       var actionUrl = "/shopsByUserId.do";  
+       // 从Server读取对应ID的JSON数据  
+       $.ajax( {  
+       	 type:"get",
+           url : actionUrl,  
+          // data : params,   
+           dataType : "json",  
+           cache : false,  
+           error : function(textStatus, errorThrown) {  
+               alert("系统ajax交互错误: " + textStatus);  
+           },  
+           success : function(data, textStatus) {  
+               // 如果读取结果成功，则将信息载入到对话框中   
+               	try{
+               	  /*   "id": 1,
+               	    "title": "新的测试",
+               	    "content": "新的测试",
+               	    "img": "[20150810035025333.png]",
+               	    "type": null,
+               	    "address": "北京市中关村南大街甲十号银海大厦",
+               	    "phone": "13800138000",
+               	    "coordinate": "116.5033,39.88" */
+               	 shopid=data.id;
+               		$("#img1").attr("src","\/uploadimg\/"+data.img.substring(1,data.img.length-1).split(',')[0]);
+               		$("#img2").attr("src","\/uploadimg\/"+data.img.substring(1,data.img.length-1).split(',')[1]);
+               		$("#img3").attr("src","\/uploadimg\/"+data.img.substring(1,data.img.length-1).split(',')[2]);
+               		$("#litimg").attr("src","\/uploadimg\/"+data.litimg.substring(1,data.litimg.length-1));
+            /*    		$("#coordinate").attr("href","\/meina\/map.html?coordinate="+data.coordinate);
+               		$("#phone").attr("href","tel:"+data.phone); */
+               		$("#title").val(data.title);
+               		$("#addr").val(data.address);
+               		$("#about").val(data.about);
+               		$("#phone").val(data.phone);
+               	    $("#type").val(data.type);  
+               		img=data.img;
+               		litimg=data.litimg;
+               		city=data.city;
+               		phone=data.phone;
+               		//type=data.type;
+               		evaluate=data.evaluate;
+               		cooo=data.coordinate;
+               		um.execCommand( 'cleardoc');
+               		um.execCommand( 'inserthtml' ,data.content);
+               		
+               	var point = new BMap.Point(parseFloat(data.coordinate.split(',')[0]),parseFloat(data.coordinate.split(',')[1]));
+               		var marker = new BMap.Marker(point);  // 创建标注
+               		map.addOverlay(marker);  
+               		map.centerAndZoom(point, 15);// 将标注添加到地图中
+               	}catch(e){
+               		alert(e);
+               	}
+           }  
+        
+       });  
+       
+
+       /*
+       * 服务器地址,成功返回,失败返回参数格式依照jquery.ajax习惯;
+       * 其他参数同WebUploader
+       */
+var img,phone,type,phone,litimg,evaluate;
+       $('#test').diyUpload({
+       	url:'/background/imgUpload.do',
+       	success:function( data ) {
+       		console.info( data );
+       	},
+       	fileNumLimit:3,
+     	fileSingleSizeLimit:2160*1080,
+       	successall:function( data ) {
+       		console.info( data );
+       		if(data.split('][').length>1){
+       		img=data.replace(/\]\[/g,',');
+       		}else{
+       			img=data;
+       		}
+       		console.info( img );
+       	},
+       	error:function( err ) {
+       		console.info( err );	
+       	}
+       });
+      $('#litimgbtn').diyUpload({
+              	url:'/background/imgUpload.do',
+              	success:function( data ) {
+              		console.info( data );
+              	},
+              	fileNumLimit:1,
+              	fileSingleSizeLimit:250*250,
+              	successall:function( data ) {
+              		console.info( data );
+              		if(data.split('][').length>1){
+              		img=data.replace(/\]\[/g,',');
+              		}else{
+              			litimg=data;
+              		}
+              		console.info( litimg );
+              	},
+              	error:function( err ) {
+              		console.info( err );	
+              	}
+        });
+
+       //点击 事件
+       $("#upshopinfo").click(function(){
+       var params = {  
+    			  /*   "id": 1,
+          	    "title": "新的测试",
+          	    "content": "新的测试",
+          	    "img": "[20150810035025333.png]",
+          	    "type": null,
+          	    "address": "北京市中关村南大街甲十号银海大厦",
+          	    "phone": "13800138000",
+          	    "coordinate": "116.5033,39.88" */
+               "title":$("#title").val(),
+               "img":img,
+               "litimg":litimg,
+               "content":um.getContent(),
+               "address":$("#addr").val(),
+               "about":$("#about").val(),
+               "coordinate":cooo,
+              /*  "usersId":userid, */
+              /*  "type":type, */
+                "type":$("#type").val(), 
+               "evaluate":evaluate,
+               "cityid":cityid,
+               
+               "phone":$("#phone").val(),
+               "city":city,
+               "id":shopid
+           };   
+           var actionUrl = "/shop/shopsEditAdd.do";  
+           // 从Server读取对应ID的JSON数据  
+           $.ajax( {  
+           	 type:"get",
+           	contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+               url : actionUrl,  
+               data : params,   
+               dataType : "text",  
+               cache : false,  
+               error : function(textStatus, errorThrown) {  
+                   alert("系统ajax交互错误: " + textStatus);  
+               },  
+               success : function(data, textStatus) {  
+                   // 如果读取结果成功，则将信息载入到对话框中   
+                   	if(data=="success"){
+                   	 location.reload(); 
+                   	}else{
+                   		alert("更新失败");
+                   	}
+               }  
+            
+           });  
+       });
+       });  
+
+</script>
+</html>

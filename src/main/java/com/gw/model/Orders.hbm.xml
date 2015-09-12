@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.gw.model">
+	<class
+		name="Orders"
+		table="orders"
+	>
+		<meta attribute="sync-DAO">false</meta>
+
+
+		<id
+			name="Id"
+			type="integer"
+			column="Id"
+		>
+			<generator class="native"/>
+		</id>
+
+		<property
+			name="ProductId"
+			column="productId"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="BuildTime"
+			column="buildTime"
+			type="timestamp"
+			not-null="false"
+			length="19"
+		/>
+		<property
+			name="OrderTime"
+			column="orderTime"
+			type="timestamp"
+			not-null="false"
+			length="19"
+		/>
+		<property
+			name="State"
+			column="state"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="UsersId"
+			column="usersId"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="Phone"
+			column="phone"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="ShopsId"
+			column="shopsId"
+			type="integer"
+			not-null="false"
+			length="10"
+		/>
+		<property
+			name="Mark"
+			column="mark"
+			type="string"
+			not-null="false"
+		/>
+
+
+	</class>	
+</hibernate-mapping>

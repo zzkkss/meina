@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <title>注册</title>
+    <link rel="stylesheet" href="/customer/login/jscss/base2014.css"/>
+    <link rel="stylesheet" href="/customer/login/jscss/login.css"/>
+    <script type="text/javascript" src="/jscss/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+    	
+    });
+    function reg(){
+    	
+    	if($("#username").val()==null||$("#password").val()==null){
+    		alert("用户名或者密码不能为空！");
+    	}else{
+    	    var params = {  
+    	               "username":$("#username").val(),
+    	               "password":$("#password").val()
+    	    
+    	           };    
+    	           var actionUrl = "/android/register.do";  
+    	           // 从Server读取对应ID的JSON数据  
+    	           $.ajax( {  
+    	           	 type:"get",
+    	               url : actionUrl,  
+    	               data : params,   
+    	               dataType : "text",  
+    	               cache : false,  
+    	               error : function(textStatus, errorThrown) {  
+    	                   alert("系统ajax交互错误: " + textStatus);  
+    	               },  
+    	               success : function(data, textStatus) {  
+    	                   // 如果读取结果成功，则将信息载入到对话框中   
+    	                   if(data=="success"){
+    	                	  // location.reload();
+    	                	   window.location.href='/login.do';
+    	                   }else{
+    	                	   alert("用户名已经存在！")
+    	                   }
+    	               }  
+    	            
+    	           });  
+    	}
+    	
+    }
+    </script>
+</head>
+<body>
+<div class="header">
+    <a href="login.jsp" class="new-a-back"><span></span></a>
+
+    <h2>美哪注册</h2>
+</div>
+<div class="common-wrapper">
+    <div class="main">
+        <div class="item item-tips" style="display:none;">
+            <div class="err-msg"></div>
+        </div>
+  <!--      <div class="item item-captcha" style="display:">
+            <div class="input-info">
+                <input class="txt-input txt-captcha" type="text" autocomplete="off" placeholder="请输入图片验证码"/>
+                <span id="captcha-img"><img src="/cgi-bin/m/authcode?mod=reg" width="63" height="25" alt=""/></span>
+            </div>
+        </div>-->
+       <!--  <div class="item item-phone">
+            <input class="txt-input txt-phone" type="tel" placeholder="请输入手机号"/>
+            <a href="javascript:;" class="btn-retransmit btn-retransmit-disabled">获取短信验证码</a>
+        </div> -->
+       <!--  <div class="item item-sms-captcha">
+            <input class="txt-input txt-sms-captcha" type="tel" autocomplete="off" placeholder="请输入短信验证码"/>
+        </div> -->
+    <!--      <div class="item item-sms-captcha">
+            <input class="txt-input txt-password" type="tel" autocomplete="off" placeholder="请输入手机号码"/>
+        </div>  -->
+        <div class="item item-sms-captcha">
+            <input id="username" class="txt-input txt-password" type="text" autocomplete="off" placeholder="请输入用户名"/>
+        </div> 
+        <div class="item item-password">
+            <input id="password" class="txt-input txt-password" type="text" autocomplete="off" placeholder="请设置6-20位登录密码" required/>
+            <b class="tp-btn btn-off btn-on"></b>
+
+            <div class="err-tips">注册即视为同意<a href="#">《美哪用户注册协议》</a></div>
+        </div>
+        <div class="item item-btns">
+            <a href="javascript:reg();" class="btn-login btn-disabled">注册</a>
+        </div>
+    </div>
+</div>
+<div class="pop-total" style="display:none;">
+    <div class="pop-bg"></div>
+    <div class="pop pop2">
+        <p class="pop-msg"></p>
+
+        <div class="pop-btns">
+            <a href="javascript:;" class="btn-pop btn-cancel">取消</a>
+            <a href="javascript:;" class="btn-pop btn-continue">继续注册</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+</script>
+</body>
+</html>

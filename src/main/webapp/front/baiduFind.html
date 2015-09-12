@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=tHkUgRj9hHQ26hHlBf20X9jg"></script>
+	
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	
+	<title>获取地图显示范围</title>
+	<script type="text/javascript">
+		function GetQueryString(name)
+		{
+			var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r!=null)return  decodeURI(r[2]); return null;
+		}
+		var coordinate=GetQueryString("coordinate");
+
+	</script>
+</head>
+<body>
+	<div id="allmap"></div>
+
+</body>
+</html>
+<script type="text/javascript">
+$(document).ready(function(){
+	// 百度地图API功能
+	var point = new BMap.Point(parseFloat(coordinate.split(',')[0]),parseFloat(coordinate.split(',')[1]));
+	var map = new BMap.Map("allmap");            
+	map.centerAndZoom(point,14);
+	
+	var vectorStar = new BMap.Marker(point, {
+		  // 初始化五角星symbol
+		  icon: new BMap.Symbol(BMap_Symbol_SHAPE_STAR, {
+		    scale: 1,
+		    fillColor: "red",
+		    fillOpacity: 0.8
+		  })
+		});
+	map.addOverlay(vectorStar);
+	 
+// 	map.addEventListener("click", function(){
+////		 alert("地图缩放至：" + this.getZoom() + "级");
+//		var bs = this.getBounds();   //获取可视区域
+//		var bssw = bs.getSouthWest();   //可视区域左下角
+//
+//		var bsne = bs.getNorthEast();   //可视区域右上角
+//		console.info("当前地图可视范围是：" + bssw.lng + "," + bssw.lat + "到" + bsne.lng + "," + bsne.lat);
+//		});
+	map.addEventListener("zoomend", function(){
+rerere();
+	});
+	map.addEventListener("tilesloaded", function(){
+		rerere();
+	});
+	map.addEventListener("touchmove", function(){
+		rerere();
+	});
+	map.addEventListener("moveend", function(){
+		rerere();
+	});
+	function rerere(){
+		var bs = map.getBounds();   //获取可视区域
+		var bssw = bs.getSouthWest();   //可视区域左下角
+        var bsce=bs.getCenter();
+		var bsne = bs.getNorthEast();   //可视区域右上角
+		console.info("当前地图可视范围是：" + bssw.lng + "," + bssw.lat + "到" + bsne.lng + "," + bsne.lat);
+		
+var ce=bsce.lng+","+bsce.lat;
+var lt=bssw.lng+","+bssw.lat;
+var rt=bsne.lng+","+bsne.lat;
+        var params = {  
+               "center":ce,
+               "leftbttom":lt,
+               "righttop":rt
+           };   
+           var actionUrl = "/shopsListByCoordinate.do";  
+           // 从Server读取对应ID的JSON数据  
+           $.ajax( {  
+           	 type:"get",
+               url : actionUrl,  
+               data : params,   
+               dataType : "json",  
+               cache : false,  
+               error : function(textStatus, errorThrown) {  
+                   alert("系统ajax交互错误: " + textStatus);  
+               },  
+               success : function(data, textStatus) {  
+                   // 如果读取结果成功，则将信息载入到对话框中
+				/*   {"id":9,"title":"阿斯大苏打","content":"<p>输入内容顶顶顶顶顶顶顶顶</p>","img":"[20150812033820746.png]","type":null
+						   ,"address":"北京市中关村南大街甲十号银海大厦","phone":"13800138000","coordinate":"116.5633,39.91","city":"北京"},*/
+					var marks=new Array();
+						   	   for(var i=0;i<data.length;i++){
+					   try{
+						   var point = new BMap.Point(parseFloat(data[i].coordinate.split(',')[0]),parseFloat(data[i].coordinate.split(',')[1]));
+						   marks[i] = new BMap.Marker(point);  // 创建标注
+
+						   marks[i].addEventListener("click", function (){
+//								alert("marker的位置是" + this.point.lng);
+							   location.href = "shop.html?shop=" +this.getLabel().getContent().split('##')[1];//location.href实现客户端页面的跳转
+							});
+						   map.addOverlay(marks[i]);             // 将标注添加到地图中
+						  
+
+							var label = new BMap.Label(
+									"<div id='shopid' style='display:none;'>##"+data[i].id+"##<\/div><div id='title'>"+data[i].title+"<\/div>"
+									,{offset:new BMap.Size(20,-10)});
+						   marks[i].setLabel(label);
+						   
+					   }catch(e){
+						   console.info(e);
+					   }
+
+				   }
+
+
+               }  
+            
+           });  
+		
+	}
+	
+	});
+</script>

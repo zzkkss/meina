@@ -1,0 +1,22 @@
+@ layout("/admin/_layout.html"){
+    <div id="login-box" class="row">
+        <form action="${base}/bbs/user/loginAdmin" method="post">
+            <p>
+                <span class="-label">&nbsp;</span>
+                <span class="-error-msg">${msg!}</span>
+            </p>
+           <!--  <p>
+                <span class="-label">邮箱：</span><input type="text" name="email" placeholder="用邮箱来登录：)">
+            </p> -->
+           <p>
+                <span class="-label">邮箱：</span><input type="text" name="username" placeholder="用户名">
+            </p> 
+            <p>
+                <span class="-label">密码：</span><input type="password" name="password">
+            </p>
+            <p>
+                <span class="-label">&nbsp;</span><input type="submit" value="登 录" onclick="return login(this)" class="btn btn-success">
+            </p>
+        </form>
+    </div>
+@ }

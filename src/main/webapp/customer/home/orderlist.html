@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>订单列表</title>
+   <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+   <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+   <script src="/jscss/jquery.cookie.js"></script>
+   <script type="text/javascript">
+   function goBack()
+   {
+   window.history.back()
+   }
+   function getUrlParam(name)
+   {
+       var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+       var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+       if (r!=null) return decodeURI(r[2]); return null; //返回参数值
+   }
+/*    var shopid=getUrlParam("shopid");
+   if(shopid==null){
+   	shopid=1;
+   } */
+   function xingxing(str,light,total){
+   	 var plby="<span class='glyphicon glyphicon-star' style='color:#ffd700;'></span>";
+        var plbn="<span class='glyphicon glyphicon-star' ></span>";
+        var plb=str;
+        for(var m=0;m<total;m++){
+       	 //if(i<data[i].eva){
+       	 if(m<light){
+       		 plb+=plby;
+       	 }else{
+       		 plb+=plbn;
+       	 }
+        }
+       	 return plb;
+   }
+   var userid=$.cookie("userid"); // 读取 cookie 
+   function loadData( page,rows){
+   	var params = {  
+      		 "userid":userid,
+              "page":page,
+              "rows":rows
+          };   
+          var actionUrl = "/android/ordersByJqpageAndUserId.do";  
+          // 从Server读取对应ID的JSON数据  
+          jQuery.ajax( {  
+          	 type:"get",
+              url : actionUrl,  
+              data : params,   
+              dataType : "json",  
+              cache : false,  
+              error : function(textStatus, errorThrown) {  
+                  alert("系统ajax交互错误: " + textStatus);  
+              },  
+              success : function(data, textStatus) {  
+                  // 如果读取结果成功，则将信息载入到对话框中   
+/* {"jqgridPage":null,
+                	  "entity":[{"custom":{"id":3,"username":"cc","email":null,"phone":null,"img":"[20150814200252075.png]","userId":8},
+	"order":{"id":20,"buildTime":1439730705000,"mark":"123123123123","orderTime":1439222400000,"phone":"123123123","productId":9,"shopsId":8,"state":1,"usersId":8},
+	"products":{"id":9,"about":"简介","description":"\n","evaluate":5,"img":"[20150814212539624.png]","name":"pagination","price":"1","shopsId":6}},
+	{"custom":{"id":3,"username":"cc","email":null,"phone":null,"img":"[20150814200252075.png]","userId":8},
+		"order":{"id":19,"buildTime":1439730664000,"mark":"123123123123","orderTime":1439222400000,"phone":"123123123","productId":9,"shopsId":8,"state":1,"usersId":8},
+		"products":{"id":9,"about":"简介","description":"\n","evaluate":5,"img":"[20150814212539624.png]","name":"pagination","price":"1","shopsId":6}}]} */
+                  for(var i=0;i<data.entity.length;i++){
+                  	try{
+                        var cd="";
+                     // 将当前时间换成时间格式字符串
+                        var timestamp3 = data.entity[i].order.orderTime;
+                        var newDate = new Date();
+                        newDate.setTime(timestamp3 * 1000);
+                        // Wed Jun 18 2014 
+                        console.log(newDate.toDateString());
+                        // Wed, 18 Jun 2014 02:33:24 GMT 
+                        console.log(newDate.toGMTString());
+                        // 2014-06-18T02:33:24.000Z
+                        console.log(newDate.toISOString());
+                        // 2014-06-18T02:33:24.000Z 
+                        console.log(newDate.toLocaleDateString());
+                        var odate=newDate.toLocaleString();
+                     // 2014年6月18日 上午10:33:24 
+                        if(data.entity[i].order.state==1){
+                cd=" <tr class='active'><td>"+data.entity[i].products.name+"</td><td>"+odate+"</td><td>预约中</td></tr>";
+                        }else if(data.entity[i].order.state==2){
+                cd=" <tr class='warning'><td>"+data.entity[i].products.name+"</td><td>"+odate+"</td><td>待评价</td></tr>";
+                        }else if(data.entity[i].order.state==3){
+                cd=" <tr class='success'><td>"+data.entity[i].products.name+"</td><td>"+odate+"</td><td>已完成</td></tr>";
+                        }else{
+                cd=" <tr class='danger'><td>"+data.entity[i].products.name+"</td><td>"+odate+"</td><td>已取消</td></tr>";
+                        }
+               
+                        jQuery("#orderc").append(cd); 
+        		
+                     
+                  	}catch(e){
+                  		alert(e);
+                  	}
+                  }
+              }  
+           
+          });  
+   }
+       jQuery(document).ready(function () {
+       	
+       loadData(page,rows);
+       jQuery("#paginationNext").click(function () {
+       	page+=1;
+       loadData(page,rows);
+       	
+       });
+            
+        
+
+
+       });
+       var page=1;
+       var rows=5;
+
+   </script>
+</head>
+<body>
+
+
+<table class="table">
+   <caption>上下文表格布局</caption>
+   <thead>
+      <tr>
+         <th>产品</th>
+         <th>付款日期</th>
+         <th>状态</th>
+      </tr>
+   </thead>
+   <tbody id="orderc">
+      <tr class="active">
+         <td>产品1</td>
+         <td>23/11/2013</td>
+         <td>待发货</td>
+      </tr>
+      <tr class="success">
+         <td>产品2</td>
+         <td>10/11/2013</td>
+         <td>发货中</td>
+      </tr>
+      <tr  class="warning">
+         <td>产品3</td>
+         <td>20/10/2013</td>
+         <td>待确认</td>
+      </tr>
+      <tr  class="danger">
+         <td>产品4</td>
+         <td>20/10/2013</td>
+         <td>已退货</td>
+      </tr>
+   </tbody>
+</table>
+
+               <ul class="pager" id="pagination">
+
+  <li class="next"><p id="paginationNext" >更多 &rarr;</p></li>
+</ul>
+</div>
+</body>
+</html>

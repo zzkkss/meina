@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>附近店铺</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="jscss/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="jscss/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="jscss/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        function getUrlParam(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r!=null) return decodeURI(r[2]); return null; //返回参数值
+        }
+        var title=getUrlParam("title");
+        var shoptype=getUrlParam("shoptype");
+        $(document).ready(function () {
+
+            var params = {
+                "shoptype":shoptype,
+                "rows" : 5,
+                "page" : 1
+            };
+            /*  http://localhost:8080/shopsList.do?rows=5&page=1 */
+            var actionUrl = "/shopsList.do";
+            // 从Server读取对应ID的JSON数据
+            $.ajax( {
+                type:"get",
+                url : actionUrl,
+                data : params,
+                dataType : "json",
+                cache : false,
+                error : function(textStatus, errorThrown) {
+                    alert("系统ajax交互错误: " + textStatus);
+                },
+                success : function(data, textStatus) {
+                    // 如果读取结果成功，则将信息载入到对话框中
+                    for(var i=0;i<data.entity.length;i++){
+                        try{
+                        var ab="<a  href='shop.html?shop="+data.entity[i].id+"'><div class='container'  style='border: silver 1px solid;'>" +
+                        "<div class='container shopList'><div class='col-md-3 col-xs-3 col-sm-3  '>" +
+                        "<img src='\/uploadimg\/"+data.entity[i].litimg.substring(1,data.entity[i].litimg.length-1)+"' class='img-thumbnail center-block' alt='"+data.entity[i].title+"'></div>" +
+                        "<div class='col-md-9 col-xs-9 col-sm-9'><div class='container shopListRight1'>" +
+                        "<strong>"+data.entity[i].title+"</strong><br>" +
+                        "</div>" +
+                        "<div class='container shopListRight2'>" +
+                        "<p> "+data.entity[i].about+"</p></div></div></div><div class='container text-nowrap' style='overflow:hidden'>" +
+                        "<div class='col-md-12 col-xs-12 col-sm-12'><p>"+ "地址："+data.entity[i].address+"</p></div></div></div></a>";
+                            $("#shoplist").append(ab);
+                        }catch(e){
+
+                        }
+                    }
+
+//
+                    $(".shopList").css("height", parseFloat($("#shoplist").width())*0.2 );
+                    $(".shopList img").css("height", parseFloat($("#shoplist").width())*0.2 );
+                   /* $(".shopListRight1 ").css("height", parseFloat($("#shoplist").width())*0.2*0.3 );
+                    $(".shopListRight2 ").css("height", parseFloat($("#shoplist").width())*0.2*0.3 );
+                    $(".shopListRight3 ").css("height", parseFloat($("#shoplist").width())*0.2*0.3 );*/
+//                $(".shopList  img").css("height", parseFloat($(window).width())*0.3 );
+//                $(".shopListRight1").css("height", parseFloat($(window).width())*0.3*0.3 );
+//                $(".shopListRight2").css("height", parseFloat($(window).width())*0.3*0.3 );
+//                $(".shopListRight3").css("height", parseFloat($(window).width())*0.3*0.3 );
+//                console.info($(".img-responsive img").css("width"));
+//                console.info($(".shopList img").width());
+                }
+
+            });
+$("#listTitle").html(title);
+        });
+    </script>
+</head>
+
+<body>
+
+
+<div class="container">
+
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title" id="listTitle"></h3>
+        </div>
+        <div class="panel-body" id="shoplist">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE HTML><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui"/>
+
+<title>产品详情</title>
+
+<link href="styles/style.css"     		 rel="stylesheet" type="text/css">
+<link href="styles/framework.css" 		 rel="stylesheet" type="text/css">
+<link href="styles/owl.theme.css" 		 rel="stylesheet" type="text/css">
+<link href="styles/swipebox.css"		 rel="stylesheet" type="text/css">
+<link href="styles/font-awesome.css"	 rel="stylesheet" type="text/css">
+<link href="styles/animate.css"			 rel="stylesheet" type="text/css">
+ <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/jscss/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+<script type="text/javascript" src="scripts/jquery-2.1.4.min.js"></script>
+
+<script type="text/javascript" src="scripts/jquery-ui-1.10.4.custom.min.js"></script>
+  <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+<script type="text/javascript" src="scripts/framework.plugins.js"></script>
+<script type="text/javascript" src="scripts/custom.js"></script>
+    <script type="text/javascript">
+    function goBack()
+    {
+    window.history.back()
+    }
+    jQuery(document).ready(function(){
+
+    });
+    function getUrlParam(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r!=null) return decodeURI(r[2]); return null; //返回参数值
+    }
+    var productid=getUrlParam("productid");
+    if(productid==null){
+    	productid=1;
+    }
+    jQuery(document).ready(function () {
+
+
+
+        var params = {  
+               "id":productid
+           };   
+           var actionUrl = "/android/productsById.do";  
+           // 从Server读取对应ID的JSON数据  
+           jQuery.ajax( {  
+           	 type:"get",
+               url : actionUrl,  
+               data : params,   
+               dataType : "json",  
+               cache : false,  
+               error : function(textStatus, errorThrown) {  
+                   alert("系统ajax交互错误: " + textStatus);  
+               },  
+               success : function(data, textStatus) {  
+                   // 如果读取结果成功，则将信息载入到对话框中
+                   /* 	{"id":9,"about":"简介","description":"\n","evaluate":5,"img":"[20150814212539624.png]","name":"pagination"
+,"price":"1","shopsId":6} */
+
+                   try{
+                   	  var zhpj=xingxing('综合评价:<br>',data.evaluate,5);
+
+                   		jQuery("#jiage").html("￥"+data.price+"元");
+                        jQuery('#productTitle').html(data.name);
+                        jQuery('#productdescription').html(data.description);
+                        jQuery('#img1').attr("src","\/uploadimg\/"+data.img.substring(1,data.img.length-1))
+                        jQuery("#xingjipingjia").html(zhpj);
+
+                        }catch(e){
+
+                        }
+                    }
+
+
+            });
+        });
+
+    
+    function xingxing(str,light,total){
+    	 var plby="<span class='glyphicon glyphicon-star' style='color:#ffd700;'></span>";
+         var plbn="<span class='glyphicon glyphicon-star' ></span>";
+         var plb=str;
+         for(var m=0;m<total;m++){
+        	 //if(i<data[i].eva){
+        	 if(m<light){
+        		 plb+=plby;
+        	 }else{
+        		 plb+=plbn;
+        	 }
+         }
+        	 return plb;
+    }
+        jQuery(document).ready(function () {
+        	 var params = {
+        	          "rows" : 5,
+        	          "page" : 1,
+        	          "productId":productid
+
+        	      };
+        	      /*  http://localhost:8080/shopsList.do?rows=5&page=1 */
+        	      var actionUrl = "/android/evaluationsByJqgridAndProductId.do";
+        	      // 从Server读取对应ID的JSON数据
+        	      jQuery.ajax( {
+        	          type:"get",
+        	          url : actionUrl,
+        	          data : params,
+        	          dataType : "json",
+        	          cache : false,
+        	          error : function(textStatus, errorThrown) {
+        	              alert("系统ajax交互错误: " + textStatus);
+        	          },
+        	          success : function(data, textStatus) {
+        	              // 如果读取结果成功，则将信息载入到对话框中
+        	              for(var i=0;i<data.entity.length;i++){
+        	                  try{
+        	                	  
+        	                	 var cd=" <div class='user-list-item' href='#'>" +
+                                         "<img alt='img' src='\/uploadimg\/"+data.entityC[i].img.substring(1,data.entityC[i].img.length-1)+"'>" +
+                                         "<strong>"+data.entity[i].title+"</strong><em>" +xingxing("个人评价:",data.entity[i].score,5)+"</em><br>"+
+                                         "<em>"+data.entity[i].content+ "</em>"+
+                                         "</div><div class='decoration'></div> ";
+                                         jQuery("#eva").append(cd);
+        	                  }catch(e){
+
+        	                  }
+        	              }
+
+        	//
+        	              jQuery(".evaList").css("height", parseFloat(jQuery("#evaList").width())*0.2 );
+        	              jQuery(".evaList img").css("height", parseFloat(jQuery("#evaList").width())*0.2 );
+        	              jQuery(".evaListRight1 ").css("height", parseFloat(jQuery("#evaList").width())*0.2*0.3 );
+        	              jQuery(".evaListRight2 ").css("height", parseFloat(jQuery("#evaList").width())*0.2*0.3 );
+        	          }
+
+        	      });
+        });
+
+    </script>
+    <style type="text/css">
+    .header {
+    height: 55px;
+    }
+     #content{
+    padding-top: 55px;
+    } 
+    
+ .title {
+  background: #fd888e none repeat scroll 0 0;
+  font-size: 14pt;
+  font-weight: bold;
+  height: 55px;
+  line-height: 55px;
+  text-align: center;
+}
+ .top span.back-btn {
+  background: rgba(0, 0, 0, 0) url("images/back.png") repeat scroll 0 0;
+  left: 18px;
+  width: 45px;
+}
+ .top span.back-btn, .wrap .title div.nav-btn {
+  cursor: pointer;
+  display: block;
+  height: 55px;
+  position: absolute;
+  top: 0;
+}
+#shopcontent{
+height: 55px;
+overflow: hidden;
+}
+    </style>
+
+<style type="text/css">
+#contact input[type="text"], #contact input[type="email"], #contact input[type="tel"], #contact input[type="url"], #contact textarea, #contact button[type="submit"], #contact button[type="button"] { font:400 12px/16px "Open Sans", Helvetica, Arial, sans-serif; }
+
+#contact {
+	background:#F9F9F9;
+	padding:25px;
+	margin:5px 0;
+}
+
+#contact h3 {
+	color: #F96;
+	display: block;
+	font-size: 30px;
+	font-weight: 400;
+}
+
+#contact h4 {
+	margin:5px 0 15px;
+	display:block;
+	font-size:13px;
+}
+
+fieldset {
+	border: medium none !important;
+	margin: 0 0 10px;
+	min-width: 100%;
+	padding: 0;
+	width: 100%;
+}
+
+#contact input[type="text"], #contact input[type="email"], #contact input[type="tel"], #contact input[type="url"], #contact textarea {
+	width:100%;
+	border:1px solid #CCC;
+	background:#FFF;
+	margin:0 0 5px;
+	padding:10px;
+}
+
+#contact input[type="text"]:hover, #contact input[type="email"]:hover, #contact input[type="tel"]:hover, #contact input[type="url"]:hover, #contact textarea:hover {
+	-webkit-transition:border-color 0.3s ease-in-out;
+	-moz-transition:border-color 0.3s ease-in-out;
+	transition:border-color 0.3s ease-in-out;
+	border:1px solid #AAA;
+}
+
+#contact textarea {
+	height:100px;
+	max-width:100%;
+  resize:none;
+}
+
+#contact button[type="submit"] {
+	cursor:pointer;
+	width:100%;
+	border:none;
+	background:#0CF;
+	color:#FFF;
+	margin:0 0 5px;
+	padding:10px;
+	font-size:15px;
+}
+#contact button[type="button"] {
+	cursor:pointer;
+	width:100%;
+	border:none;
+	background:#0CF;
+	color:#FFF;
+	margin:0 0 5px;
+	padding:10px;
+	font-size:15px;
+}
+#contact button[type="submit"]:hover {
+	background:#09C;
+	-webkit-transition:background 0.3s ease-in-out;
+	-moz-transition:background 0.3s ease-in-out;
+	transition:background-color 0.3s ease-in-out;
+}
+#contact button[type="button"]:hover {
+	background:#09C;
+	-webkit-transition:background 0.3s ease-in-out;
+	-moz-transition:background 0.3s ease-in-out;
+	transition:background-color 0.3s ease-in-out;
+}
+
+#contact button[type="submit"]:active { box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.5); }
+#contact button[type="button"]:active { box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.5); }
+
+#contact input:focus, #contact textarea:focus {
+	outline:0;
+	border:1px solid #999;
+}
+</style>
+</head>
+<body> 
+
+<div id="preloader">
+	<div id="status">
+    	<p class="center-text">
+			正在加载……
+            <em>加载时间与您的网速有关</em>
+        </p>
+    </div>
+</div>
+    
+       
+<div class="all-elements">
+    
+     <div class="header">
+     
+     <div class="title tc pr top" >
+     <p id="shoptitle"></p>
+	  <span class="back-btn" onclick="goBack()"></span >
+	  <div class="nav-btn">
+	  </div>
+	</div>
+
+    </div> 
+
+    <!-- Page Content-->
+    <div id="content" class="snap-content">        
+        <div class="slider-container no-bottom">
+            <div class="homepage-slider" data-snap-ignore="true">                
+                <div>
+                    <div class="overlay"></div>
+                    <div class="homepage-slider-caption homepage-left-caption">
+                    </div>
+                    <img src="images/pictures/3.jpg" id="img1" class="responsive-image" alt="img">
+                </div>
+               
+            </div>
+        </div>
+        
+        <div class="content" >            
+            <div class="content no-bottom" id="productDes">
+           <div class="  one-third " >
+               <span id="jiage" >
+                     </span>
+                   
+                </div>
+                <div class="one-half pull-right">
+                    <span id="xingjipingjia">
+                        	星级评价：  	
+                    </span>        
+                </div>
+
+            </div>
+             <div class="decoration"></div>
+             <div class="container no-bottom" id="productdescription">
+           、
+
+            </div>
+            <div class="decoration"></div>
+            <div class="row">
+                <div class="title ">
+                    <strong>预约订单</strong>
+                </div>
+					<div class="container no-bottom">
+
+<form id="contact" method="post">
+
+    <h4>现在预约订单，我们将会在48小时内联系您！</h4>
+    <fieldset>
+      <input placeholder="姓名（必填）" type="text" tabindex="1" id="uname" required autofocus>
+    </fieldset>
+    <fieldset>
+      <input placeholder="电子邮箱" type="email" tabindex="2" id="uemail">
+    </fieldset>
+    <fieldset>
+      <input placeholder="联系电话（必填）" type="tel" tabindex="3" id="uphone" required>
+    </fieldset>
+        <fieldset>
+      <input placeholder="预约时间（必填）" type="text" tabindex="3" id="udate" required>
+    </fieldset>
+    <fieldset>
+      <textarea placeholder="您的留言" tabindex="4" id="umark" required></textarea>
+    </fieldset>
+    <fieldset>
+      <button name="submit" type="button" id="contact-submit" data-submit="正在提交">提交预约</button>
+    </fieldset>
+  </form>
+<script type="text/javascript">
+function checkCookie()
+{
+username=getCookie('username')
+if (username!=null && username!="")
+  {alert('Welcome again '+username+'!')}
+else 
+  {
+  username=prompt('Please enter your name:',"")
+  if (username!=null && username!="")
+    {
+    setCookie('username',username,365)
+    }
+  }
+}
+function getCookie(c_name)
+{
+if (document.cookie.length>0)
+  {
+  c_start=document.cookie.indexOf(c_name + "=")
+  if (c_start!=-1)
+    { 
+    c_start=c_start + c_name.length+1 
+    c_end=document.cookie.indexOf(";",c_start)
+    if (c_end==-1) c_end=document.cookie.length
+    return unescape(document.cookie.substring(c_start,c_end))
+    } 
+  }
+return ""
+}
+
+
+jQuery(function() {
+    jQuery( "#udate" ).datepicker();
+});
+var username=getCookie('username');
+if(username!=null){
+	  jQuery("#uname").val(username);
+}
+var userid=getCookie('userid');
+jQuery("#contact-submit").click(function(){
+	if(userid==""){
+		alert(" 请先登录！")  
+	}else{
+
+	  
+	  var params = {
+	          "UsersId" : userid,
+	          "ProductId":productid,
+	          "OrderTime" : jQuery("#udate").val(),
+	          "Phone":jQuery("#uphone").val(),
+	          "Mark":jQuery("#umark").val()
+
+	      };
+	      /*  http://localhost:8080/shopsList.do?rows=5&page=1 */
+	      var actionUrl = "/android/orderAdd.do";
+	      // 从Server读取对应ID的JSON数据
+	      jQuery.ajax( {
+	          type:"get",
+	          url : actionUrl,
+	          data : params,
+	          dataType : "text",
+	          cache : false,
+	          error : function(textStatus, errorThrown) {
+	              alert("系统ajax交互错误: " + textStatus);
+	          },
+	          success : function(data, textStatus) {
+	              // 如果读取结果成功，则将信息载入到对话框中
+	              if(data=="success"){
+	            	  alert("预约成功！")
+	              }else{
+	            	  alert("预约失败！")
+	              }
+	          }
+
+	      });
+	      
+}
+});
+  var username=getCookie('username');
+  var userid=getCookie('userid');
+ /*  alert($.cookie('username')); // 读取 cookie 
+  alert($.cookie('userid')); // 读取 cookie  */
+  
+</script>
+
+					</div>
+				</div>
+            <div class="title">
+                <strong>用户评论</strong>
+            </div>
+            
+            <div class="container no-bottom" id="eva">
+                <div class="decoration"></div>                
+            </div>
+            
+            
+        </div>
+
+        </div>
+<a class='text-highlight highlight-red content text-center'> 查看更多产品</a>
+    </div>
+</div>
+
+</body>
+
