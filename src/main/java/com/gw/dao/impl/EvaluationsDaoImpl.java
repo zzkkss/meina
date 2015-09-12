@@ -48,6 +48,15 @@ public class EvaluationsDaoImpl extends BaseDaoImpl<Evaluations> implements Eval
 		return map;
 	}
 
+	public List<Evaluations> findByProductId(Evaluations evaluations) {
+		// TODO Auto-generated method stub
+		Criteria criteria=this.getSession().createCriteria(Evaluations.class);
+		Map<String, Object> map=new HashMap<String, Object>();
+		criteria.add(Restrictions.eq("ProductId", evaluations.getProductId()));
+			List<Evaluations> list= criteria.list();
+		return list;
+	}
+
 
 
 }

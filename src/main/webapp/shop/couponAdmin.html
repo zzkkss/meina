@@ -233,6 +233,7 @@ var openDialog4Adding = function() {
     var dialogButtonPanel = consoleDlg.siblings();  
     consoleDlg.find("input").removeAttr("disabled").val("");  
     consoleDlg.find("button").removeAttr("disabled").val("");  
+    um.setEnabled();
     dialogButtonPanel.find("button:not(:contains('取消'))").hide();  
     dialogButtonPanel.find("button:contains('创建')").show(); 
     consoleDlg.dialog("option", "title", "添加产品信息").dialog("open");  
@@ -244,6 +245,7 @@ var openDialog4Updating = function() {
       
     consoleDlg.find("input").removeAttr("disabled");  
     consoleDlg.find("button").removeAttr("disabled");  
+    um.setEnabled();
     dialogButtonPanel.find("button:not(:contains('取消'))").hide();  
     dialogButtonPanel.find("button:contains('保存')").show();  
     consoleDlg.dialog("option", "title", "修改产品信息");  
@@ -255,6 +257,7 @@ var openDialog4Deleting = function() {
       
     consoleDlg.find("input").attr("disabled", true);  
     consoleDlg.find("button").attr("disabled", true);  
+    um.setDisabled();
     dialogButtonPanel.find("button:not(:contains('取消'))").hide();  
     dialogButtonPanel.find("button:contains('删除')").show();  
     consoleDlg.dialog("option", "title", "删除产品信息");  
@@ -743,8 +746,8 @@ height: 50px;
 					</tr>
 					<tr>
 						<th>图片：</th>
-						<td><input type="text" class="textField" id="img"
-							name="img" readonly="readonly" datatype="/[\[]{1}/i" ignore="ignore" /> 
+						<td><input type=hidden class="textField" id="img"
+							name="img" readonly="readonly" datatype="*,/\[.*\]/i" errormsg="请重新上传图片！" nullmsg="请上传图片！" /> 
 							<p>缩略图比例1：1，最大不超过250*250，建议200*200。</p>	
 							<div id="imgdiv"></div>
 							<button type="button" value="上传" id="firstimgbtn">上传</button>

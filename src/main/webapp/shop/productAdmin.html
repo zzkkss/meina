@@ -239,7 +239,7 @@ var openDialog4Adding = function() {
     var dialogButtonPanel = consoleDlg.siblings();  
     consoleDlg.find("input").removeAttr("disabled").val("");  
     consoleDlg.find("button").removeAttr("disabled").val("");  
-    
+    um.setEnabled();
     dialogButtonPanel.find("button:not(:contains('取消'))").hide();  
     dialogButtonPanel.find("button:contains('创建')").show(); 
     consoleDlg.dialog("option", "title", "添加产品信息").dialog("open");  
@@ -251,6 +251,7 @@ var openDialog4Updating = function() {
       
     consoleDlg.find("input").removeAttr("disabled");  
     consoleDlg.find("button").removeAttr("disabled");  
+    um.setEnabled();
     dialogButtonPanel.find("button:not(:contains('取消'))").hide();  
     dialogButtonPanel.find("button:contains('保存')").show();  
     consoleDlg.dialog("option", "title", "修改产品信息");  
@@ -261,6 +262,7 @@ var openDialog4Deleting = function() {
     var dialogButtonPanel = consoleDlg.siblings();  
     consoleDlg.find("button").attr("disabled", true);  
     consoleDlg.find("input").attr("disabled", true);  
+    um.setDisabled();
     dialogButtonPanel.find("button:not(:contains('取消'))").hide();  
     dialogButtonPanel.find("button:contains('删除')").show();  
     consoleDlg.dialog("option", "title", "删除产品信息");  
@@ -763,12 +765,6 @@ height: 50px;
 						<td><div class="Validform_checktip"></div></td>
 						</tr>
 					<tr>
-			<!-- 					{name:'id',index:'Id', width:50,hidden:true,editoptions:{defaultValue:0}},
-       		{name:'name',index:'name', width:50,editable:true},
-       		{name:'about',index:'about', editable:true},
-       		{name:'description',index:'description', editable:true,formatter:contentformat},
-       		{name:'price',index:'price', width:50,editable:true},
-       		{name:'img',index:'img', width:50,editable:true,formatter:imgformatfirst} -->
 						<th>产品描述：</th>
 						<td><input type="text" class="textField" id="description"
 							name="description" style="display: none" />
@@ -782,8 +778,8 @@ height: 50px;
 					</tr>
 					<tr>
 						<th>产品图片：</th>
-						<td><label>产品图片自动生成名:</label><input type="text" class="textField" id="img"
-							name="img" readonly="readonly" datatype="/[\[]{1}/i" ignore="ignore" errormsg="请重新上传图片！" />
+						<td><input type="hidden" class="textField" id="img"
+							name="img"  datatype="*,/\[.*\]/i" readonly="readonly" errormsg="请重新上传图片！" nullmsg="请上传图片！" />
 							<p>缩略图比例1：1，最大不超过1000*1000，建议600*600。</p>	
 							<div id="imgdiv"></div>
 							<button type="button" value="上传" id="firstimgbtn">上传</button>
@@ -793,9 +789,9 @@ height: 50px;
 					</tr>
 					<tr>
 						<th>缩略图：</th>
-						<td><label>缩略图自动生成名:</label>
-						<input type="text" class="textField" id="litimg"
-							name="litimg" readonly="readonly" datatype="/[\[]{1}/i" ignore="ignore" errormsg="请重新上传图片！" />
+						<td>
+						<input type="hidden" class="textField" id="litimg"
+							name="litimg"  datatype="*,/\[.*\]/i" readonly="readonly" errormsg="请重新上传图片！" nullmsg="请上传图片！"  />
 						<p>缩略图比例1：1，最大不超过250*250，建议150*150。</p>	
 							
 							<!-- <input type="file" class="textField" id="litimgi" name="litimgi" /> -->

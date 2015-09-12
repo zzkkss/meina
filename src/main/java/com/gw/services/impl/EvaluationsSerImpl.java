@@ -47,4 +47,8 @@ private EvaluationsDao  evaluationsDao;
 		// TODO Auto-generated method stub
 		return evaluationsDao.getByPageAndProductId(jqpage,productId);
 	}
+	public List<Evaluations> findByProductId(Evaluations evaluations) {
+		// TODO Auto-generated method stub
+		return evaluationsDao.findByProductId( evaluations);
+	}
 }

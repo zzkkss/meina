@@ -135,7 +135,9 @@
                         <li>
                             <a id="orderAdmin" href="/shop/orderAdmin.html"><i class="fa fa-edit fa-fw"></i> 订单管理</a>
                         </li>
-                       
+                      <!--  <li>
+                            <a id="orderAdmin" href="/shop/messageAdmin.html"><i class="fa fa-edit fa-fw"></i> 消息管理</a>
+                        </li> -->
                    
                     </ul>
                 </div>

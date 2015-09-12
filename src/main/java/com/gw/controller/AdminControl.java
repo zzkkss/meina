@@ -33,8 +33,6 @@ public class AdminControl {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private AdminInfoSer adminInfoSer;
-	
-	
 		 @RequestMapping({"adminInfo","background/adminInfo","android/adminInfo"}) 
 		 @ResponseBody
 		 /**

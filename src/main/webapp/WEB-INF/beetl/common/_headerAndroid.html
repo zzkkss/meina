@@ -25,10 +25,11 @@
     </div>
 </div> -->
 
-	<div class="row">
-		<a class=" col-xs-4 btn btn-primary btn-lg pull-left" href="${base}/bbs/android">
-		<sapn class='glyphicon glyphicon-home'> </sapn>首页
+	<div class="row" style="background-color: #fff">
+		<a class=" col-xs-2 btn  btn-lg pull-left" href="${base}/bbs/android">
+		<sapn class='glyphicon glyphicon-home'> </sapn>
 		</a>
+		<div class="col-xs-2"></div>
 		 @ if(session.user! == null){
            <a  class=" col-xs-4 btn btn-warning btn-lg center-text " href="">
            <sapn class='glyphicon  glyphicon-user'> </sapn>请登录</a>
@@ -36,8 +37,8 @@
            	 <a class=" col-xs-4 btn btn-warning btn-lg center-text" href="${base}/bbs/user/${session.user.id}" >
            	 <sapn class='glyphicon glyphicon-user'> </sapn>${session.user.username}</a>
         @ }
-		<a class=" col-xs-4 btn btn-primary btn-lg pull-right" href="${base}/bbs/topic/add">
-		<sapn class='glyphicon  glyphicon-edit'> </sapn>新话题</a>
+		<a class=" col-xs-2 btn  btn-lg pull-right" href="${base}/bbs/topic/add">
+		<sapn class='glyphicon  glyphicon-edit'> </sapn></a>
 		
 	</div>
-	<HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color=#987cb9 SIZE=3>
+	<HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3);margin-top: 1px;margin-bottom: 10px" width="100%" color=#987cb9 SIZE=3>

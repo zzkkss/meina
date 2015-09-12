@@ -123,7 +123,9 @@
                          <li>
                             <a href="/admin/couponAdmin.html"><i class="fa fa-edit fa-fw"></i> 优惠券管理</a>
                         </li>
-                       
+                        <li>
+                            <a href="/admin/messageAdmin.html"><i class="fa fa-edit fa-fw"></i> 消息管理</a>
+                        </li>
                    
                     </ul>
                 </div>

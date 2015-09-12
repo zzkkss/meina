@@ -180,7 +180,7 @@ input:invalid,input:valid,input:required {
 				<div class="controls">
 					
 				 <img src="/captcha.do" />
-				<input  id="captcha"  name="captcha" class="input-block input-large"   type="text" class="text" placeholder="输入验证码"> 
+				<input  id="captcha"  name="captcha" class="input-block input-large"  tabindex="1" type="text" class="text" placeholder="输入验证码"> 
 		
 				</div>
 			</div>

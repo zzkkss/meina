@@ -30,7 +30,7 @@ if(top.location != location){
     	 document.getElementById('msg').style.display="";  
     }
     </script>
-							<input  id="uname"  name="username"  type="text" class="text" value="用户名" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '用户名';}">
+				<input  id="uname"  name="username"  type="text" class="text" value="用户名" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '用户名';}">
 				 <input id="pword"  name="password"  type="text" class="text" value="密码" onfocus="this.value = '';this.type='password'" onblur="if (this.value == '') {this.type='text';this.value = '密码';}"> 
 				
 				 <img src="/captcha.do" />

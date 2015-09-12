@@ -17,7 +17,7 @@
 	<sec:http pattern="/jscss/**" security="none"></sec:http><!-- 不过滤测试内容 -->
 	<sec:http pattern="/jscss/**/*.*" security="none"></sec:http><!-- 不过滤测试内容,给baidu控件放行 -->
 	<sec:http pattern="/device/**" security="none"></sec:http><!-- 不过滤测试内容 -->
-	<sec:http pattern="/front/**" security="none"></sec:http><!-- 不过滤测试内容 -->
+	<!-- <sec:http pattern="/front/**" security="none"></sec:http> --><!-- 不过滤测试内容 -->
 	<sec:http pattern="/error/**" security="none"></sec:http><!-- 不过滤测试内容 -->
 	<sec:http pattern="/error/**/*.*" security="none"></sec:http><!-- 不过滤测试内容,给baidu控件放行 -->
 	<sec:http pattern="/updataimg/**" security="none"></sec:http><!-- 不过滤测试内容 -->

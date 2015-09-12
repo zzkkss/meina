@@ -61,7 +61,7 @@ $(document).ready(function(){
     	postData:{
     		type:t
     	},
-       	colNames:['ID','店铺名称','店铺介绍','宣传图','地址','联系电话','所在城市','审核账户','设置热门'],
+       	colNames:['ID','店铺名称','店铺介绍','宣传图','地址','联系电话','所在城市','设置评分','审核账户','设置热门'],
        	colModel:[
 			{name:'shop.id',index:'Id', width:50,hidden:true,editoptions:{defaultValue:0}},
        		{name:'shop.title',index:'Title', width:50,editable:true},
@@ -70,7 +70,13 @@ $(document).ready(function(){
        		{name:'shop.address',index:'Address', sortable:false,width:50,editable:true},
        		{name:'shop.phone',index:'Phone', sortable:false,width:50,editable:true},
        		{name:'shop.city',index:'City', width:50,editable:true},
-       		{name:'xgcz',index:'xgcz', width:100, sortable:false,formatter: function (value, grid, rows, state)
+       		{name:'szpf',index:'szpf', width:75, sortable:false,formatter: function (value, grid, rows, state){
+       			console.info(rows.shop);
+       		//	var str=(JSON.stringify(rows.shop).replace(new RegExp(/(\")/g),'\''));
+       			return "<span>当前评分:"+rows.shop.evaluate+"&nbsp;&nbsp;</span><a href=\"#\" style=\"color:#f60\" onclick=\"szpf0(" +rows.shop.id+")\">修改评分</a>";
+       		} 
+       		},
+       		{name:'xgcz',index:'xgcz', width:75, sortable:false,formatter: function (value, grid, rows, state)
            		{
        			if(rows.mainuser.enabled){
        			return "<a href=\"#\" style=\"color:#f60\" onclick=\"jyzh(" +rows.mainuser.id+")\">已审核，点击禁用账户</a>" 
@@ -136,15 +142,15 @@ $(document).ready(function(){
     
 	
 	$(function() {
-	    $( "#dialog" ).dialog({
+	    $( "#dialog,#dialog2" ).dialog({
 	      autoOpen: false,
 	      show: {
 	        effect: "blind",
-	        duration: 1000
+	        duration: 100
 	      },
 	      hide: {
 	        effect: "explode",
-	        duration: 1000
+	        duration: 100
 	      }
 	    });
 	 
@@ -155,7 +161,6 @@ $(document).ready(function(){
 			
 			
 });
-    
     
 	$("#xiugaipaixvBtn").click(function(){
 		 var params = {  
@@ -185,6 +190,34 @@ $(document).ready(function(){
 		                }
 		            }  
 		        });  
+	});
+	$("#xiugaipingfenBtn").click(function(){
+
+		var params = {  
+	            "id" : szpfshopid,
+	            "evaluate":$("#pf").val()
+	        };  
+	        var actionUrl = "/background/shopsEdit.do";  //	 public String shopsHotEdit( int id,int sort,int cityCode,int operate) {  
+	        // 从Server读取对应ID的JSON数据  
+	        $.ajax( {  
+	        	 type:"get",
+	            url : actionUrl,  
+	            data : params,  
+	            dataType : "text",  
+	            cache : false,  
+	            error : function(textStatus, errorThrown) {  
+	                alert("系统ajax交互错误: " + textStatus);  
+	            },  
+	            success : function(data, textStatus) {  
+	                // 如果读取结果成功，则将信息载入到对话框中                   
+	                if(data!='success'){
+	                	alert(data);
+	                }else{
+	            	 $("#list1").trigger("reloadGrid");
+	                $( "#dialog2" ).dialog( "close" );
+	                }
+	            }  
+	        });  
 	});
 	}); 
 $("#btnAdd").click(function(){
@@ -271,7 +304,19 @@ function szrm0(id,cityid){///http://localhost:8080/background/shopsHotEdit.do?so
 	            }  
 	        });  
 }
-	        
+	        var szpfshopid;
+function szpf0(shopid){///http://localhost:8080/background/shopsHotEdit.do?sort=1&operate=0&_=1440808584893//dele
+
+	 szpfshopid=shopid;
+		$( "#dialog2" ).dialog( "open" );
+		
+	//	var str=(JSON.stringify(shop).replace(new RegExp(/(\')/g),'\"'));
+	//	var sh=JSON.parse(str)
+		//console.info(sh);
+
+	//	sh.evaluate=0;
+	 
+}
 	        
 
 	        
@@ -847,27 +892,42 @@ height: 50px;
 	<script type="text/javascript">
 	</script>
 	<div id="showtime"></div>
-	
+
 	<div id="dialog" class="panel panel-default" title="修改排名">
-   <div class="panel-body">
-      <form role="form" >
-   <div class="form-group">
-      <label for="px">排序位置</label>
-          <select class="form-control" id="px">
-									        	<option value="1">第一位</option>
-												<option value="2">第二位</option>
-												<option value="3">第三位</option>
-												<option value="4">第四位</option>
-												<option value="5">第五位</option>
-									      </select>
-         
-   </div>
-   <button type="button" id="xiugaipaixvBtn" class="btn btn-default">提交</button>
-</form>
-   </div>
-</div>
-	
-	
+		<div class="panel-body">
+			<form role="form">
+				<div class="form-group">
+					<label for="px">排序位置</label> <select class="form-control" id="px">
+						<option value="1">第一位</option>
+						<option value="2">第二位</option>
+						<option value="3">第三位</option>
+						<option value="4">第四位</option>
+						<option value="5">第五位</option>
+					</select>
+
+				</div>
+				<button type="button" id="xiugaipaixvBtn" class="btn btn-default">提交</button>
+			</form>
+		</div>
+	</div>
+	<div id="dialog2" class="panel panel-default" title="修改评分">
+		<div class="panel-body">
+			<form role="form">
+				<div class="form-group">
+					<label for="pf">评分</label> <select class="form-control" id="pf">
+						<option value="1">1分</option>
+						<option value="2">2分</option>
+						<option value="3">3分</option>
+						<option value="4">4分</option>
+						<option value="5">5分</option>
+					</select>
+
+				</div>
+				<button type="button" id="xiugaipingfenBtn" class="btn btn-default">提交</button>
+			</form>
+		</div>
+	</div>
+
 </body>
 	
 

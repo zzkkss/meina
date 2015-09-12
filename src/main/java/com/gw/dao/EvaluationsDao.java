@@ -13,4 +13,6 @@ import com.gw.model.Shops;
 public interface EvaluationsDao extends BaseDao<Evaluations> {
 
 	Map<String, Object> getByPageAndProductId(Jqpage jqpage, int productId);
+
+	List<Evaluations> findByProductId(Evaluations evaluations);
 }

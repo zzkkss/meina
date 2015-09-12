@@ -207,6 +207,13 @@ public class ShopsControl {
 		 Shops arts=shopsSer.getByUserId(myUserDetails.getId());
 	 	return arts;
 	 }
+	 /**
+	  * 好像是shop权限下自行更新信息
+	  * @param shops
+	  * @param request
+	  * @param response
+	  * @return
+	  */
 	 @RequestMapping({"shop/shopsEditAdd","background/shopsEditAdd"}) 
 	 @ResponseBody
 	 public String shopsEditAdd(@ModelAttribute("shops") Shops shops,HttpServletRequest request,HttpServletResponse response) {  
@@ -215,6 +222,26 @@ public class ShopsControl {
 		 SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
 		 MyUserDetails myUserDetails=(MyUserDetails) securityContextImpl.getAuthentication().getPrincipal();
 		 sp.setUsersId(myUserDetails.getId());
+		 shopsSer.update(sp);
+		 return "success";
+	 }
+	 /**
+	  * admin更新店铺信息
+	  * @param shops
+	  * @param request
+	  * @param response
+	  * @return
+	  */
+	 @RequestMapping({"admin/shopsEdit","background/shopsEdit"}) 
+	 @ResponseBody
+	 public String shopsEdit(@ModelAttribute("shops") Shops shops,HttpServletRequest request,HttpServletResponse response) {  
+//		 Shops sp=new Shops();
+//		 sp=shops;
+//		 SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+//		 MyUserDetails myUserDetails=(MyUserDetails) securityContextImpl.getAuthentication().getPrincipal();
+//		 sp.setUsersId(myUserDetails.getId());
+		 Shops sp=shopsSer.getById(shops.getId());
+		 sp.setEvaluate(shops.getEvaluate());
 		 shopsSer.update(sp);
 		 return "success";
 	 }

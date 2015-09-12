@@ -32,12 +32,12 @@
                 <div class="-topic-content">
                     <a href="${base}/bbs/topic/${topic.id}" title="${topic.content}" >${topic.content}</a>
                 </div>
-                <div class="" style="white-space: nowrap;">
+                <div class="" style="white-space: nowrap;font-size: xx-small;">
                     <span><a href="${base}/bbs/topic/module/${topic.module.id}" class="btn btn-success btn-xs"  title="话题分类">${topic.module.name}</a></span>
                       <span title="浏览次数" class="btn btn-success btn-xs">浏览<span class="label label-danger">${topic.pv}</span></span>
                		 <span title="帖子个数"  class="btn btn-success btn-xs">回帖<span class="label label-warning">${topic.postCount}</span></span>
                 </div>
-                <div style="white-space: nowrap;">
+                <div style="white-space: nowrap;font-size: xx-small;">
                 <span>楼主：<a href="${base}/bbs/user/${topic.userID!}"  title="作者">${topic.user.username!}</a></span>
                  <span>发表时间：${printTime(topic.createTime)}</span>
                 </div>

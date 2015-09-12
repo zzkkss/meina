@@ -382,16 +382,18 @@ public ModelAndView customerRegister(@RequestParam(value = "error", required = f
 
 		SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
 		ModelAndView model = new ModelAndView();
+		if(securityContextImpl!=null){
 		MainUsers mainUsers= mainUsersSer.findByUsername(securityContextImpl.getAuthentication().getName()).get(0);
 		Map<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("id", mainUsers.getId());
 
 			Customers customers=customersSer.getByUserId(mainUsers.getId());
 			map2.put("customer", customers);
-			model.setViewName("customer/home/home");
 
 		model.addObject("info", JSONObject.fromObject(map2));
-		
+		}else{
+		}
+		model.setViewName("customer/home/home");
 		return model;
 	}
 	@RequestMapping(value = { "/loginR", "/background/loginR" }, method = RequestMethod.POST)

@@ -20,6 +20,8 @@ public interface EvaluationsSer extends BaseSer<Evaluations> {
 	Map<String, Object> findByJqgridJqgridAndProductId(Jqpage jqgridPage,
 			int productId);
 
+	List<Evaluations> findByProductId(Evaluations evaluations);
+
 
 
 }

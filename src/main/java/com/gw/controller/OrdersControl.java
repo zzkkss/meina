@@ -61,7 +61,15 @@ public class OrdersControl {
 	private WeixinUserSer weixinUserSer;
 	@RequestMapping(value = { "/orderAdd", "/android/orderAdd" })
 	  @ResponseBody
+	  /**
+	   * android 下单
+	   * @param order
+	   * @return
+	   */
 	public String orderAdd(@ModelAttribute("order")Orders order) {
+		if(order.getUsersId()==null){
+			return "请先登录！";
+		}
 		Orders o=order;
 		o.setState(1);
 		o.setBuildTime(new Date());

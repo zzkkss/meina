@@ -41,6 +41,7 @@ import com.gw.model.Evaluations;
 import com.gw.model.Jqpage;
 import com.gw.model.MainUsers;
 import com.gw.model.Orders;
+import com.gw.model.Products;
 import com.gw.model.Shops;
 import com.gw.model.WeixinUserTerminals;
 import com.gw.security.LoginInfo;
@@ -50,6 +51,8 @@ import com.gw.services.CustomersSer;
 import com.gw.services.EvaluationsSer;
 import com.gw.services.MainUsersSer;
 import com.gw.services.OrdersSer;
+import com.gw.services.ProductsSer;
+import com.gw.services.ShopsSer;
 import com.gw.services.WeixinUserTerminalsSer;
 
 @Controller
@@ -64,6 +67,10 @@ private CustomersSer customersSer;
 private MainUsersSer mainUsersSer;
 @Autowired
 private OrdersSer ordersSer;
+@Autowired
+private ShopsSer shopsSer;
+@Autowired
+private ProductsSer productsSer;
 	 @RequestMapping ({"evaluationsList","background/evaluationsList","android/evaluationsList"}) 
 	  @ResponseBody
 	    public List<Evaluations> shopList( ) {  
@@ -131,7 +138,19 @@ private OrdersSer ordersSer;
 		 
 		 Orders a=ordersSer.getById(evaluations.getOrderId());
 		 a.setState(3);
-		 ordersSer.update(a);
+		 ordersSer.update(a);//修改订单状态为以评价；
+		 
+		Products products=productsSer.getById(evaluations.getProductId());
+		List<Evaluations> evaluations2=evaluationsSer.findByProductId(evaluations);
+		int sum=0;
+		for(int i=0;i<evaluations2.size();i++){
+			sum+=evaluations2.get(i).getScore();
+		}
+		int fen=(int) Math.round((double)(sum+evaluations.getScore())/(evaluations2.size()+1));
+		products.setEvaluate(fen);
+		productsSer.update(products);	//修改商品平均评分；
+		// Shops shops=shopsSer.getById(products.getShopsId()); //修改店铺平均评分,放到店铺管理中；
+		 
 		 if(arts>0){
 			 return "success";
 		 }else{
